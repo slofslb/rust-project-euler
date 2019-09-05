@@ -1,0 +1,12 @@
+C:\Users\ccc\rust-project-euler\euler29\target\release\deps\num_bigint-9bced00236264cbb.rmeta: C:\Users\ccc\.cargo\registry\src\github.com-1ecc6299db9ec823\num-bigint-0.2.3\src\lib.rs C:\Users\ccc\.cargo\registry\src\github.com-1ecc6299db9ec823\num-bigint-0.2.3\src\macros.rs C:\Users\ccc\.cargo\registry\src\github.com-1ecc6299db9ec823\num-bigint-0.2.3\src\bigint.rs C:\Users\ccc\.cargo\registry\src\github.com-1ecc6299db9ec823\num-bigint-0.2.3\src\biguint.rs C:\Users\ccc\.cargo\registry\src\github.com-1ecc6299db9ec823\num-bigint-0.2.3\src\algorithms.rs C:\Users\ccc\.cargo\registry\src\github.com-1ecc6299db9ec823\num-bigint-0.2.3\src\monty.rs
+
+C:\Users\ccc\rust-project-euler\euler29\target\release\deps\libnum_bigint-9bced00236264cbb.rlib: C:\Users\ccc\.cargo\registry\src\github.com-1ecc6299db9ec823\num-bigint-0.2.3\src\lib.rs C:\Users\ccc\.cargo\registry\src\github.com-1ecc6299db9ec823\num-bigint-0.2.3\src\macros.rs C:\Users\ccc\.cargo\registry\src\github.com-1ecc6299db9ec823\num-bigint-0.2.3\src\bigint.rs C:\Users\ccc\.cargo\registry\src\github.com-1ecc6299db9ec823\num-bigint-0.2.3\src\biguint.rs C:\Users\ccc\.cargo\registry\src\github.com-1ecc6299db9ec823\num-bigint-0.2.3\src\algorithms.rs C:\Users\ccc\.cargo\registry\src\github.com-1ecc6299db9ec823\num-bigint-0.2.3\src\monty.rs
+
+C:\Users\ccc\rust-project-euler\euler29\target\release\deps\num_bigint-9bced00236264cbb.d: C:\Users\ccc\.cargo\registry\src\github.com-1ecc6299db9ec823\num-bigint-0.2.3\src\lib.rs C:\Users\ccc\.cargo\registry\src\github.com-1ecc6299db9ec823\num-bigint-0.2.3\src\macros.rs C:\Users\ccc\.cargo\registry\src\github.com-1ecc6299db9ec823\num-bigint-0.2.3\src\bigint.rs C:\Users\ccc\.cargo\registry\src\github.com-1ecc6299db9ec823\num-bigint-0.2.3\src\biguint.rs C:\Users\ccc\.cargo\registry\src\github.com-1ecc6299db9ec823\num-bigint-0.2.3\src\algorithms.rs C:\Users\ccc\.cargo\registry\src\github.com-1ecc6299db9ec823\num-bigint-0.2.3\src\monty.rs
+
+C:\Users\ccc\.cargo\registry\src\github.com-1ecc6299db9ec823\num-bigint-0.2.3\src\lib.rs:
+C:\Users\ccc\.cargo\registry\src\github.com-1ecc6299db9ec823\num-bigint-0.2.3\src\macros.rs:
+C:\Users\ccc\.cargo\registry\src\github.com-1ecc6299db9ec823\num-bigint-0.2.3\src\bigint.rs:
+C:\Users\ccc\.cargo\registry\src\github.com-1ecc6299db9ec823\num-bigint-0.2.3\src\biguint.rs:
+C:\Users\ccc\.cargo\registry\src\github.com-1ecc6299db9ec823\num-bigint-0.2.3\src\algorithms.rs:
+C:\Users\ccc\.cargo\registry\src\github.com-1ecc6299db9ec823\num-bigint-0.2.3\src\monty.rs:
