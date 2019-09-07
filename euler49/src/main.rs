@@ -5,8 +5,8 @@ fn main() {
     let mut prime_mask = vec![true; max_number_to_check];
     fill_prime_mask(&mut prime_mask);
 
-    for x in 1000..9999 {
-        if !prime_mask[x] {
+    for x in 1000u32..9999 {
+        if !prime_mask[x as usize] {
             continue;
         }
         let mut vx: Vec<u32> = x
@@ -29,17 +29,12 @@ fn main() {
         });
         //println!("{:?}", ys);
 
-        for y in ys.iter() {
-            let diff = (*y as i32) - (x as i32);
-            if diff <= 0 {
-                continue;
-            };
-            if !prime_mask[*y as usize] {
-                continue;
-            }
-            let z = diff as u32 + y;
-            if ys.contains(&z) && prime_mask[z as usize] {
-                println!("{} {} {}", x, y, z);
+        for &y in ys.iter() {
+            if y > x && prime_mask[y as usize] {
+                let z = (y - x) + y;
+                if ys.contains(&z) && prime_mask[z as usize] {
+                    println!("{} {} {}", x, y, z);
+                }
             }
         }
     }
