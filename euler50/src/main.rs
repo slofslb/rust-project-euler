@@ -5,19 +5,23 @@ fn main() {
 
     let mut len = 1;
     for start in 2..1000_000 {
-        if !prime_mask[start] {continue;} 
+        if !prime_mask[start] {
+            continue;
+        }
         let mut count = 1;
         let mut sum = start;
         for i in start + 1..1000_000 {
             if prime_mask[i] {
                 count += 1;
                 sum += i;
-                if sum > 1_000_000 {break;}
+                if sum > 1_000_000 {
+                    break;
+                }
                 if count > len && prime_mask[sum] {
                     len = count;
                     println!("start: {} len: {} sum: {}", start, len, sum);
                 }
-            } 
+            }
         }
     }
 }
@@ -37,4 +41,3 @@ fn fill_prime_mask(prime_mask: &mut [bool]) {
         }
     }
 }
-
