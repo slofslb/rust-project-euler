@@ -15,3 +15,7 @@ https://projecteuler.net
 * [第7~12题](https://mp.weixin.qq.com/s/GFZj_yPY-R9XU__KHqRmvA)
 * [第13~16题](https://mp.weixin.qq.com/s/6edK0fgCPSoN12k6spBdnw)
 * [第17~21题](https://mp.weixin.qq.com/s/vZo7qZBLwgxG3d1ia5xKGg)
+
+
+可以在projecteuler中添加下面这个key，加我为好友，一起学习。
+1539870_KBNiIXymh4SnmDEDZmUTg7tu1MTBVlLj
