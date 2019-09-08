@@ -10,3 +10,8 @@ https://projecteuler.net
 这个网站提供了几百道由易到难的数学问题，你可以用任何办法去解决它，当然主要还得靠编程，但编程语言不限，已经有Java、C#、Python、Lisp、Haskell等各种解法，当然直接用google搜索答案就没意思了。
 
 学习Rust最好先把基本的语法和特性看过一遍，然后就可以动手解题了，解题的过程就是学习、试错、再学习、掌握和巩固的过程，学习进度会大大加快。
+
+* [第1~6题](https://mp.weixin.qq.com/s/cyDRvJB5QfME6OhiKxkHBw)
+* [第7~12题](https://mp.weixin.qq.com/s/GFZj_yPY-R9XU__KHqRmvA)
+* [第13~16题](https://mp.weixin.qq.com/s/6edK0fgCPSoN12k6spBdnw)
+* [第17~21题](https://mp.weixin.qq.com/s/vZo7qZBLwgxG3d1ia5xKGg)
