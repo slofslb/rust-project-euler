@@ -19,16 +19,20 @@ fn main() {
             }
         }
 
-        if !next_perm(&mut v) {break;}
+        if !next_perm(&mut v) {
+            break;
+        }
     }
     println!("sum: {}", sum);
 }
 // 16695334890
 
-fn next_perm(v: &mut [u32]) -> bool{
+fn next_perm(v: &mut [u32]) -> bool {
     let mut i = v.len() - 2;
     while v[i] > v[i + 1] {
-        if i == 0 {return false;} // 已经全部从大到小排列了
+        if i == 0 {
+            return false;
+        } // 已经全部从大到小排列了
         i -= 1;
     }
 
