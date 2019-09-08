@@ -25,14 +25,20 @@ fn main() {
                 //println!("n*n - {}*n + {}, n: {}", a, b, n);
                 // 这里求值时，可能会出现负数，如果用usize，运行时会出现溢出错误
                 let y: isize = n * n + a * n + b;
-                if y < 0 || !prime_mask[y as usize]{
+                if y < 0 || !prime_mask[y as usize] {
                     prime_series_len = n;
                     break;
-                } 
-            } 
+                }
+            }
             if prime_series_len > max_prime_len {
                 max_prime_len = prime_series_len;
-                println!("primes: {} a: {} + b: {}   a * b = {}", prime_series_len, a, b, a * b);
+                println!(
+                    "primes: {} a: {} + b: {}   a * b = {}",
+                    prime_series_len,
+                    a,
+                    b,
+                    a * b
+                );
             }
         }
     }
