@@ -7,9 +7,9 @@ fn main() {
     for n in (3..).step_by(2) {
         let lower_right = n * n;
 
-        let diag = [lower_right, lower_right - (n-1), lower_right - (n-1)*2, lower_right - (n-1)*3];
-        for d in diag.iter() {
-            if pset.is_prime(*d) {
+        let diag = (0..4).map(|x| lower_right - (n-1)*x);
+        for d in diag {
+            if pset.is_prime(d) {
                 count += 1;
             }
         }
