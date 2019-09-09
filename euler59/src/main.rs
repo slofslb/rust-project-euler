@@ -4,13 +4,14 @@ fn main() {
     let xs: Vec<&str> = data.split(",").collect();
     let letters: Vec<u8> = xs.iter().map(|x| x.parse::<u8>().unwrap()).collect();
 
+    // 用统计方法，尝试可能的密码，如果得到的明文中包含的英文字母越多，越可能是正确的密码。
     let mut pass = ['.'; 3];
     let mut max_count = [0; 3];
-    for p in 0x61..=0x7A {
+    for p in 0x61..=0x7A { // 密码是小写字母
         let mut count = [0; 3];
         for (i, ch) in letters.iter().enumerate() {
-            let a = ch ^ p;
-            if (a >= 0x41 && a <= 0x5a) || (a >= 0x61 && a <= 0x7a) {
+            let a = (ch ^ p) as char;
+            if ('A'..='Z').contains(&a) || ('a'..='z').contains(&a) {
                 count[i % 3] += 1;
             }
         }
