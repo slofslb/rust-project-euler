@@ -1,13 +1,9 @@
 fn main() {
     let data = std::fs::read_to_string("keylog.txt").expect("打开文件失败");
-    let lines = data.split("\n");
+    let lines = data.trim().split("\n");
 
     let mut kv: Vec<(&str, &str)> = vec![];
-
     for line in lines {
-        if line.len() < 3 {
-            continue;
-        }
         let a = &line[..1];
         let b = &line[1..=1];
         let c = &line[2..];
