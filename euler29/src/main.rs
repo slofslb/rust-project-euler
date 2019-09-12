@@ -11,7 +11,7 @@ fn main() {
             }
         }
     }
-    println!("{:?}", v.len());
+    println!("{}", v.len());
 }
 // 9183 运行10多秒
 
