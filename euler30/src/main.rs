@@ -13,9 +13,11 @@ fn main() {
     }
     println!("sum: {}", s);
 
+    // 第二种写法
     let sum_pow = (2..999999).filter(|&x| is_power_number(x)).sum::<u32>(); //.collect::<Vec<u32>>();
     println!("sum: {:?}", sum_pow);
 
+    // 第三种：写成变态的一行
     println!(
         "sum: {}",
         (2..999999)
