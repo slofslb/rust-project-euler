@@ -19,7 +19,6 @@ fn main() {
                                         + h * 200;
                                     if price == 200 {
                                         count += 1;
-                                        //println!("{}", count);
                                     }
                                 }
                             }
