@@ -1,14 +1,14 @@
 fn main() {
     let mut s = 0;
-    for i in 2..999999 {
-        let sum_pow = i
+    for n in 2..999999 {
+        let sum_pow = n
             .to_string()
             .chars()
             .map(|c| c.to_digit(10).unwrap().pow(5))
             .sum::<u32>();
-        if sum_pow == i {
-            println!("{}", i);
-            s += i;
+        if sum_pow == n {
+            println!("{}", n);
+            s += n;
         }
     }
     println!("sum: {}", s);
@@ -30,8 +30,9 @@ fn main() {
 // 443839
 
 fn is_power_number(n: u32) -> bool {
-    n == n.to_string()
-          .chars()
-          .map(|c| c.to_digit(10).unwrap().pow(5))
-          .sum::<u32>()
+    n == n
+        .to_string()
+        .chars()
+        .map(|c| c.to_digit(10).unwrap().pow(5))
+        .sum::<u32>()
 }
