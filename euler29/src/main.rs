@@ -13,7 +13,7 @@ fn main() {
     }
     println!("{}", v.len());
 }
-// 9183 运行10多秒
+// 9183 Debug下运行10多秒，release模式1秒
 
 fn power(a: u64, b: u64) -> BigUint {
     let mut prod = BigUint::from(1 as u64);
