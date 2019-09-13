@@ -7,15 +7,18 @@ fn main() {
         let hand1 = &cards[..5];
         let hand2 = &cards[5..];
 
-/*
-        print!("{:?}  ", highest_card(hand1));
-        print!("{:?}  ", is_flush(hand1));
-        print!("{:?}  ", is_straight(hand1));
-        print!("{:?}  ", is_straight_flush(hand1));
-        println!("{:?}  ", is_royal_flush(hand1));
-        println!("four kind {:?}  ", four_of_a_kind(hand1));
-        println!("three kind {:?}  ", three_of_a_kind(hand1));
-*/
+        if is_flush(hand2) {
+            print!("flush !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        }
+
+        /*
+                print!("{:?}  ", highest_card(hand1));
+                print!("{:?}  ", is_straight(hand1));
+                print!("{:?}  ", is_straight_flush(hand1));
+                println!("{:?}  ", is_royal_flush(hand1));
+                println!("four kind {:?}  ", four_of_a_kind(hand1));
+                println!("three kind {:?}  ", three_of_a_kind(hand1));
+        */
         let p1 = pairs(hand1);
         let p2 = pairs(hand2);
         let v1 = eval(hand1);
@@ -28,7 +31,7 @@ fn main() {
             println!("pairs1 {:?}  pairs2: {:?}", pairs(hand1), pairs(hand2));
             println!("{}  {}\n", v1, v2);
         }
-        
+
         if v1 > v2 {
             count += 1;
         }
@@ -42,40 +45,57 @@ fn main() {
 // 4) 顺子，同花，同花顺，同花大顺
 // 5) 四条
 
+fn eval2(hand: &[&str]) -> usize {
+    let mut count_cards = vec![0; 15]; // 最大A，值是14
+    let values: Vec<usize> = hand.iter().map(|x| card_value(x)).collect();
+    for v in values {
+        count_cards[v] += 1;
+    }
+
+    let mut kind_four = 0;
+    let mut kind_three = 0;
+    let mut pair: Vec<usize> = vec![];
+    let mut remain: Vec<usize> = vec![];
+
+    for (card_value, count) in count_cards.iter().enumerate() {
+        if *count == 4 {
+            kind_four = card_value;
+        } else if *count == 3 {
+            kind_three = card_value;
+        } else if *count == 2 {
+            pair.push(card_value);
+        } else {
+            remain.push(card_value);
+        }
+    }
+    0
+}
 
 fn eval(hand: &[&str]) -> usize {
     if is_royal_flush(hand) {
         return 99999;
-    }
-    else if is_straight_flush(hand) {
-        return 90000 + highest_card(hand)
-    }
-    else if four_of_a_kind(hand) > 0 {
-        return 80000 + four_of_a_kind(hand)
-    }
-    else if is_flush(hand) {
+    } else if is_straight_flush(hand) {
+        return 90000 + highest_card(hand);
+    } else if four_of_a_kind(hand) > 0 {
+        return 80000 + four_of_a_kind(hand);
+    } else if is_flush(hand) {
         return 60000 + highest_card(hand);
-    }
-    else if is_straight(hand) {
+    } else if is_straight(hand) {
         return 50000 + highest_card(hand);
-    }
-    else if three_of_a_kind(hand) > 0 {
+    } else if three_of_a_kind(hand) > 0 {
         let p = pairs(hand);
         if p.len() > 0 {
             return 75000 + three_of_a_kind(hand) * 100 + p[0]; // full house
-        }
-        else {
+        } else {
             return 40000 + highest_card(hand);
         }
-    }
-    else {
+    } else {
         let mut p = pairs(hand);
-        if p.len() == 2  {
+        if p.len() == 2 {
             p.sort();
-            return 20000 + p[1] * 500 + p[0] * 100 + highest_card(hand) ; 
-        }
-        else if p.len() == 1  {
-            return 10000 + p[0] * 100 + highest_card(hand); 
+            return 20000 + p[1] * 500 + p[0] * 100 + highest_card(hand);
+        } else if p.len() == 1 {
+            return 10000 + p[0] * 100 + highest_card(hand);
         }
     }
     highest_card(hand)
@@ -87,7 +107,7 @@ fn pairs(hand: &[&str]) -> Vec<usize> {
     for v in values {
         count_cards[v] += 1;
     }
-    let mut pair:Vec<usize> = vec![];
+    let mut pair: Vec<usize> = vec![];
 
     for (card_value, count) in count_cards.iter().enumerate() {
         if *count == 2 {
@@ -95,7 +115,7 @@ fn pairs(hand: &[&str]) -> Vec<usize> {
         }
     }
     pair
- }
+}
 
 // 是否有三条的存在，如果有，返回其牌张的大小
 // 如果不存在，返回0
@@ -151,9 +171,23 @@ fn is_straight(hand: &[&str]) -> bool {
     diff1 == 1 && diff1 == diff2 && diff2 == diff3 && diff3 == diff4
 }
 
+use itertools::Itertools;
 // 是同花？
 fn is_flush(hand: &[&str]) -> bool {
-    hand[0] == hand[1] && hand[0] == hand[2] && hand[0] == hand[3] && hand[0] == hand[4]
+    hand.concat()
+        .split(|c| c != 'S' && c != 'H' && c != 'D' && c != 'C')
+        .all_equal()
+    /*
+    let hand_str = hand.concat().to_string();
+    let first_suit = hand_str.chars().nth(1).unwrap();
+    for i in 3..=9 {
+        let suit = hand_str.chars().nth(i).unwrap();
+        if first_suit != suit {
+            return false;
+        }
+    }
+    true
+    */
 }
 
 fn highest_card(hand: &[&str]) -> usize {
