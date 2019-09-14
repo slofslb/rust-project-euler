@@ -1,57 +1,66 @@
-//use primes::PrimeSet;
+use itertools::Itertools;
 
 fn main() {
-    let start = 100000_usize;
+    let start = 100000;
     let end = 999999;
 
     let max_number_to_check = end + 1;
     let mut prime_mask = vec![true; max_number_to_check];
     fill_prime_mask(&mut prime_mask);
 
-    let mut vp = vec![];
-    for p in start..end {
-        if prime_mask[p] {
-            vp.push(p);
+    for n in start..end {
+        if !prime_mask[n] {
+            continue;
         }
-    }
-    println!("prime len: {}", vp.len() );
+        for position_replaced in 2..end.to_string().len() - 1 {
+            let pos_combinations = (0..end.to_string().len()).combinations(position_replaced);
+            for pos in pos_combinations {
+                let mut prime_family = vec![];
+                for digit in 0..=9 {
+                    let mut n_replaced = n;
+                    for ip in &pos {
+                        n_replaced = replace(n_replaced, *ip, digit);
+                    }
 
-    let mut count: Vec<usize> = vec![0; end];
-    'exit: for i in 0..end.to_string().len() {
-        for j in 0..end.to_string().len() {
-        for k in 0..end.to_string().len() {
-            for m in 0..count.len() {
-                count[m] = 0;
-            }
-            for p in &vp {
-                if *p < start {continue;}
-                let (a, digit_removed1) = remove(*p, i);
-                let (b, digit_removed2) = remove(a, j);
-                let (c, digit_removed3) = remove(b, k);
-                if i != j && j !=k && i !=k && 
-                digit_removed1 == digit_removed2 && digit_removed1 == digit_removed3 {
-                    count[c] += 1;
+                    if prime_mask[n_replaced]
+                        && !prime_family.contains(&n_replaced)
+                        && n_replaced.to_string().len() == end.to_string().len()
+                    {
+                        prime_family.push(n_replaced);
+                    }
+                }
+                if prime_family.len() >= 8 {
+                    println!("seed: {} {:?} {:?}", n, pos, prime_family);
+                    println!("{}", prime_family[0]);
+                    return;
                 }
             }
-            //println!("{:?}", count );
-
-            for p in start..end {
-                if count[p] >= 8 {
-                    println!("{:?} {} {}", p, i, j);
-                    break 'exit;
-                }
-            }
-        }
         }
     }
 }
 
-static POWER :&[usize] = &[1, 10, 100, 1_000, 10_000, 100_000, 1_000_000, 10_000_000, 
-               100_000_000, 1000_000_000, 10_000_000_000];
+static POWER: &[usize] = &[
+    1,
+    10,
+    100,
+    1_000,
+    10_000,
+    100_000,
+    1_000_000,
+    10_000_000,
+    100_000_000,
+    1_000_000_000,
+    10_000_000_000,
+];
 
-fn remove(n: usize, i: usize) -> (usize, usize) {
-    let d = n / POWER[i] % 10;
-    (n - d * POWER[i], d)
+fn replace(n: usize, pos: usize, new_digit: usize) -> usize {
+    let d = n / POWER[pos] % 10;
+    n - d * POWER[pos] + new_digit * POWER[pos]
+}
+
+fn remove(n: usize, pos: usize) -> (usize, usize) {
+    let d = n / POWER[pos] % 10;
+    (n - d * POWER[pos], d)
 }
 
 fn fill_prime_mask(prime_mask: &mut [bool]) {
