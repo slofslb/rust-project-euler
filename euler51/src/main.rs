@@ -17,16 +17,16 @@ fn main() {
             for pos in pos_combinations {
                 let mut prime_family = vec![];
                 for digit in 0..=9 {
-                    let mut n_replaced = n;
+                    let mut n_generated = n;
                     for ip in &pos {
-                        n_replaced = replace(n_replaced, *ip, digit);
+                        n_generated = replace(n_generated, *ip, digit);
                     }
 
-                    if prime_mask[n_replaced]
-                        && !prime_family.contains(&n_replaced)
-                        && n_replaced.to_string().len() == end.to_string().len()
+                    if prime_mask[n_generated]
+                        && !prime_family.contains(&n_generated)
+                        && n_generated.to_string().len() == end.to_string().len()
                     {
-                        prime_family.push(n_replaced);
+                        prime_family.push(n_generated);
                     }
                 }
                 if prime_family.len() >= 8 {
