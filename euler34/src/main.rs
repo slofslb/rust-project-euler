@@ -1,29 +1,29 @@
 fn main() {
-    //let f  = vec![0..10].iter().map(|&x| fac(x));//.collect();
-    //let mut f = vec![0..10].iter_mut().for_each(|el| *el = fac(*el));//.collect();
-    let mut f = vec![1; 10];
-    for i in 0..10 {
-        f[i] = fac(i as u32);
-    }
-    println!("{:?}", f);
+    // let mut fac = vec![1; 10];
+    // for i in 0..=9 {
+    //     fac[i] = factorial(i as u32);
+    // }
+    let fac: Vec<u32> = (0..10).map(|x| factorial(x)).collect();
+    println!("{:?}", fac);
 
-    for i in 3..999999 {
+    let mut sum = 0;
+    for n in 3..999999 {
+        // 各位数字的阶乘之和
         let mut sum_fac = 0;
-        
-        for d in i.to_string()
-         .chars()
-         .map(|x| x.to_digit(10).unwrap()) {
-             sum_fac += f[d as usize];
-         }
-         
-        if i == sum_fac {
-            println!("{}", i);
-        } 
+        for digit in n.to_string().chars().map(|x| x.to_digit(10).unwrap()) {
+            sum_fac += fac[digit as usize];
+        }
+        if n == sum_fac {
+            println!("{}! = {}", n, n);
+            sum += n;
+        }
     }
+    println!("{}", sum);
 }
 
-fn fac(n: u32) -> u32{
-    if n <= 1 {return 1;}
-    return n * fac(n-1);
+fn factorial(n: u32) -> u32 {
+    if n <= 1 {
+        return 1;
+    }
+    return n * factorial(n - 1);
 }
-
