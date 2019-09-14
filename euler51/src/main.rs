@@ -1,7 +1,7 @@
 //use primes::PrimeSet;
 
 fn main() {
-    let start = 121313_usize;
+    let start = 100000_usize;
     let end = 999999;
 
     let max_number_to_check = end + 1;
@@ -18,16 +18,19 @@ fn main() {
 
     let mut count: Vec<usize> = vec![0; end];
     'exit: for i in 0..end.to_string().len() {
-        for j in i + 1..end.to_string().len() {
-            for i in 0..count.len() {
-                count[i] = 0;
+        for j in 0..end.to_string().len() {
+        for k in 0..end.to_string().len() {
+            for m in 0..count.len() {
+                count[m] = 0;
             }
             for p in &vp {
                 if *p < start {continue;}
                 let (a, digit_removed1) = remove(*p, i);
                 let (b, digit_removed2) = remove(a, j);
-                if digit_removed1 == digit_removed2 {
-                    count[b] += 1;
+                let (c, digit_removed3) = remove(b, k);
+                if i != j && j !=k && i !=k && 
+                digit_removed1 == digit_removed2 && digit_removed1 == digit_removed3 {
+                    count[c] += 1;
                 }
             }
             //println!("{:?}", count );
@@ -38,6 +41,7 @@ fn main() {
                     break 'exit;
                 }
             }
+        }
         }
     }
 }
