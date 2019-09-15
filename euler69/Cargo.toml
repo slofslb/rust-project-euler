@@ -8,3 +8,4 @@ edition = "2018"
 
 [dependencies]
 hashbrown = "0.1"
+primes = "0.2"

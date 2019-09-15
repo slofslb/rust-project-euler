@@ -1,16 +1,17 @@
 use hashbrown::HashMap;
 
 fn main() {
-    let mut cache :HashMap<(u32,u32), u32> = HashMap::new();
+    let mut cache :HashMap<(u64,u64), u64> = HashMap::new();
 
     let mut max_n_phi = 0_f32;
-    for n in 2..=1_000_000 {
+    for n in 2..=10 {//1_000_000 {
         if n % 10000 == 0{
             println!("{}", n);
         }
         let mut phi = 0;
         for i in 1..n {
-            if gcd(&mut cache, i, n) == 1 {
+            if primes::is_prime(n) || primes::is_prime(i)
+             || gcd(&mut cache, i, n) == 1 {
                 phi += 1;
             }
         }
@@ -22,7 +23,7 @@ fn main() {
     }
 }
 
-fn gcd(cache: &mut HashMap<(u32, u32), u32>, a: u32, b: u32) -> u32 {
+fn gcd(cache: &mut HashMap<(u64, u64), u64>, a: u64, b: u64) -> u64 {
     if b == 0 {
         a
     } else {
