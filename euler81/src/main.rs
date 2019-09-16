@@ -12,17 +12,7 @@ fn main() {
 
 fn compute_path_weight(w: &Vec<usize>) -> Vec<usize> {
     let mut path: Vec<usize> = vec![0; w.len()];
-    for i in (0..=79 + 79).rev() {
-        for r in (0..80).rev() {
-            if i < r {
-                continue;
-            }
-            let c = i - r;
-            if c >= 80 {
-                continue;
-            }
-            let node = r * 80 + c;
-            if r == 79 && c == 79 {
+        let c = node % 80;
                 path[node] = w[node];
             } else {
                 let down = if r >= 79 {
