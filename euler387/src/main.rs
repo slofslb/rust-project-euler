@@ -46,7 +46,7 @@ right_har(i);
 }
 
 fn right_har(start: u64) {
-    if start >= 999999999 {return;}
+    if start >= 9_999_999_999_999 {return;}
     if right_harshad(start) {
         if strong(start as usize) {
             //println!("{}", start);
@@ -121,11 +121,11 @@ fn strong(n: usize) -> bool {
         .chars()
         .map(|c| c.to_digit(10).unwrap())
         .collect();
-    let mut num = 0;
-    let mut sum = 0;
+    let mut num :u64= 0;
+    let mut sum :u64= 0;
     for d in digits {
-        num = num * 10 + d;
-        sum += d;
+        num = num * 10 + d as u64;
+        sum += d as u64;
         if num % sum != 0 {
             return false;
         }
