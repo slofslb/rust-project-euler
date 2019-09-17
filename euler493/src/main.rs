@@ -1,4 +1,6 @@
 use rand::{seq, thread_rng};
+extern crate bitstream_io;
+
 fn main() {
     let mut rng = thread_rng();
     // for i in 1..100 {
@@ -7,26 +9,31 @@ fn main() {
     // }
 
     let mut balls = vec![];
-    for color in 0..7 {
-        for i in 0..10 {
-            balls.push((color, i));
+        for i in 1..=10 {
+            balls.push((i << 8) + 1u32);
+            balls.push((i << 8) + 2);
+            balls.push((i << 8) + 4);
+            balls.push((i << 8) + 8);
+            balls.push((i << 8) + 16);
+            balls.push((i << 8) + 32);
+            balls.push((i << 8) + 64);
         }
-    }
+    
 
-    let mut count = 0;
-    let total_count = 1000000000;
-    for i in 1..=total_count {
+    let mut count:u64 = 0;
+    let total_count = 10000000000_u64;
+    for i in 1.. {
         let sample = seq::sample_slice(&mut rng, &balls, 20);
-        let mut distinct_colors = vec![];
-        for (color, _) in &sample {
-            if !distinct_colors.contains(&color) {
-                distinct_colors.push(color);
-                if distinct_colors.len() == 7 {break;}
-            }
+        //println!("{:?}", sample);
+        let mut a = 0;
+        for ball in &sample {
+            a |= *ball;
         }
-        //println!("{:?} \n{:?}", sample, distinct_colors.len() );
-        count += distinct_colors.len();
-        if i % 1000000 == 0 {
+        a &= 127;
+        //println!("{:b}", a);
+        count += a.count_ones() as u64;
+        //count += distinct_colors.len();
+        if i % 10000000 == 0 {
             println!("{}", (count as f64) / (i as f64));
         }
     }
