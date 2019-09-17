@@ -9,3 +9,4 @@ edition = "2018"
 [dependencies]
 rand = "0.4"
 bitstream-io = "0.8"
+itertools = "0.8"

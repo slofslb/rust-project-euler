@@ -1,5 +1,6 @@
 use rand::{seq, thread_rng};
 extern crate bitstream_io;
+use itertools::Itertools;
 
 fn main() {
     let mut rng = thread_rng();
@@ -20,6 +21,25 @@ fn main() {
         }
     
 
+    let it = balls.iter().combinations(20);
+    let mut total :u64 = 0;
+    let mut count:u64 = 0;
+    for sample in it {
+        //println!("{:?}", sample);
+        total += 1;
+        let mut a = 0;
+        for &ball in &sample {
+            a |= ball;
+        }
+        a &= 127;
+        //println!("{:b}", a);
+        count += a.count_ones() as u64;
+        if total % 10000000 == 0 {
+            println!("{}", (count as f64) / (total as f64));
+        }    
+    }
+    println!("{}", (count as f64) / (total as f64));
+/*
     let mut count:u64 = 0;
     let total_count = 10000000000_u64;
     for i in 1.. {
@@ -37,4 +57,5 @@ fn main() {
             println!("{}", (count as f64) / (i as f64));
         }
     }
+    */
 }
