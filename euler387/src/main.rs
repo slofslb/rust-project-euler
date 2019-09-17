@@ -15,9 +15,23 @@ fn main() {
     }
     println!("finished prime generation");
 
-    println!("{}", harshad(201));
-    println!("{}", right_harshad(201));
-    println!("{}", strong_right_harshad(&prime_mask, 201));
+    let mut sum = 0;
+    for n in 10..1000 {
+    //println!("{}", harshad(201));
+    //println!("{}", right_harshad(201));
+    //println!("{}", strong_right_harshad(&prime_mask, 201));
+        if strong_right_harshad(&prime_mask, n) {
+            println!("strong: {}", n);
+            for i in (1..=9).step_by(2) {
+                let temp = (n as usize) * 10 + i;
+                if prime_mask[temp] {
+                    println!("{}", temp);
+                    sum += temp;
+                }
+            }
+        }
+    }
+    println!("sum: {}", sum);
 }
 
 fn harshad(n: u64) -> bool {
