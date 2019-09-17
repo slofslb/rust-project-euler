@@ -20,7 +20,7 @@ fn main() {
             balls.push((i << 8) + 64);
         }
     
-
+/*
     let it = balls.iter().combinations(20);
     let mut total :u64 = 0;
     let mut count:u64 = 0;
@@ -39,10 +39,10 @@ fn main() {
         }    
     }
     println!("{}", (count as f64) / (total as f64));
-/*
+*/
     let mut count:u64 = 0;
-    let total_count = 10000000000_u64;
-    for i in 1.. {
+    let total_count = 10_000_000_u64;
+    for i in 1..total_count {
         let sample = seq::sample_slice(&mut rng, &balls, 20);
         //println!("{:?}", sample);
         let mut a = 0;
@@ -53,9 +53,7 @@ fn main() {
         //println!("{:b}", a);
         count += a.count_ones() as u64;
         //count += distinct_colors.len();
-        if i % 10000000 == 0 {
-            println!("{}", (count as f64) / (i as f64));
-        }
     }
-    */
+            println!("{}", (count as f64) / (total_count as f64));
+    
 }
