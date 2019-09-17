@@ -1,5 +1,5 @@
 fn main() {
-    let max_number_to_check = 1_000_000;
+    let max_number_to_check = 100_000_000;
     let mut prime_mask = vec![true; max_number_to_check];
     prime_mask[0] = false;
     prime_mask[1] = false;
@@ -16,7 +16,7 @@ fn main() {
     println!("finished prime generation");
 
     let mut sum = 0;
-    for n in 10..1000 {
+    for n in 10..max_number_to_check/10 {
     //println!("{}", harshad(201));
     //println!("{}", right_harshad(201));
     //println!("{}", strong_right_harshad(&prime_mask, 201));
@@ -57,7 +57,7 @@ fn right_harshad(n: u64) -> bool {
     true
 }
 
-fn strong_right_harshad(prime_mask: &Vec<bool>, n: u64) -> bool {
+fn strong_right_harshad(prime_mask: &Vec<bool>, n: usize) -> bool {
     let digits: Vec<u32> = n
         .to_string()
         .chars()
