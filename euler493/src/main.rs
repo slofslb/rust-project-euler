@@ -9,17 +9,27 @@ fn main() {
     //     println!("{:?}", sample);
     // }
 
+    let mut initial_balls = vec![];
+        for i in 1..=10 {
+            initial_balls.push((i << 8) + 1u32);
+            initial_balls.push((i << 8) + 2);
+            initial_balls.push((i << 8) + 4);
+            initial_balls.push((i << 8) + 8);
+            initial_balls.push((i << 8) + 16);
+            initial_balls.push((i << 8) + 32);
+            initial_balls.push((i << 8) + 64);
+        }
+
     let mut sample_count: u64 = 0;
     for i in 1_u64..1000000000 {
-        let mut balls = vec![10; 7];
+        let mut balls = initial_balls.clone();
         let mut bits: u32 = 0;
-        for  _dice_count in 0..20 {
-            let mut id: usize = (rng.gen::<u32>() % 7) as usize;
-            while balls[id] == 0 {
-                id = (id + 1) % 7;
-            }
-            balls[id] -= 1;
-            bits |= 1 << id;
+        for  dice_count in 0..20 {
+            let index: usize = rng.gen_range::<u32>(0, (balls.len() - dice_count)as u32) as usize;
+            let will_remove = balls[index];
+            balls[index] = balls[balls.len() - dice_count - 1];
+            //balls.remove_item(&id);
+            bits |= will_remove & 127;
             if bits == 127 {
                 break;
             }
