@@ -1,6 +1,6 @@
-use rand::{seq, thread_rng};
+use rand::{seq, thread_rng, Rng};
 extern crate bitstream_io;
-use itertools::Itertools;
+//use itertools::Itertools;
 
 fn main() {
     let mut rng = thread_rng();
@@ -9,37 +9,29 @@ fn main() {
     //     println!("{:?}", sample);
     // }
 
-    let mut balls = vec![];
-        for i in 1..=10 {
-            balls.push((i << 8) + 1u32);
-            balls.push((i << 8) + 2);
-            balls.push((i << 8) + 4);
-            balls.push((i << 8) + 8);
-            balls.push((i << 8) + 16);
-            balls.push((i << 8) + 32);
-            balls.push((i << 8) + 64);
+    let mut sample_count: u64 = 0;
+    for i in 1_u64..1000000000 {
+        let mut balls = vec![10; 7];
+        let mut bits: u32 = 0;
+        for  _dice_count in 0..20 {
+            let mut id: usize = (rng.gen::<u32>() % 7) as usize;
+            while balls[id] == 0 {
+                id = (id + 1) % 7;
+            }
+            balls[id] -= 1;
+            bits |= 1 << id;
+            if bits == 127 {
+                break;
+            }
         }
-    
-
-    let it = balls.iter().combinations(20);
-    let mut total :u64 = 0;
-    let mut count:u64 = 0;
-    for sample in it {
-        //println!("{:?}", sample);
-        total += 1;
-        let mut a = 0;
-        for &ball in &sample {
-            a |= ball;
-        }
-        a &= 127;
         //println!("{:b}", a);
-        count += a.count_ones() as u64;
-        if total % 10000000 == 0 {
-            println!("{}", (count as f64) / (total as f64));
-        }    
+        sample_count += bits.count_ones() as u64;
+        if i % 1000000 == 0 {
+            println!("{}", (sample_count as f64) / (i as f64));
+        }
     }
-    println!("{}", (count as f64) / (total as f64));
-/*
+    //println!("{}", (sample_count as f64) / (i as f64));
+    /*
     let mut count:u64 = 0;
     let total_count = 10000000000_u64;
     for i in 1.. {
