@@ -1,6 +1,8 @@
 use std::collections::HashMap;
+
 fn main() {
-    let mut cubic = HashMap::new();
+    let mut min_cube = std::u64::MAX;
+    let mut hash = HashMap::new();
     for i in 10_u64..10000 {
         let pow3 = i.pow(3);
         let mut digits: Vec<u64> = pow3
@@ -9,22 +11,29 @@ fn main() {
             .map(|x| x.to_digit(10).unwrap() as u64)
             .collect();
         digits.sort();
+        // 反序排列之后的整数，作为哈希表的主键
         let key = digits.iter().rev().fold(0u64, |x, a| 10 * x + a);
-        if !cubic.contains_key(&key) {
-            cubic.insert(key, vec![i]);
+        if !hash.contains_key(&key) {
+            hash.insert(key, vec![i]);
         } else {
-            let v = cubic.get_mut(&key).unwrap();
-            &v.push(i);
-            if v.len() == 5 {
-                println!(
-                    "{:?} {:?}",
-                    v,
-                    v.iter().map(|x| x * x * x).collect::<Vec<u64>>()
-                );
-                let min_v = v.iter().min().unwrap();
-                println!("{}", min_v * min_v * min_v);
+            let cubic_numbers = hash.get_mut(&key).unwrap();
+            &cubic_numbers.push(i);
+            if cubic_numbers.len() == 5 {
+                println!("{:?}", cubic_numbers);
+                println!("{:?}", cubic_numbers.iter().map(|x| x.pow(3)).collect::<Vec<u64>>());
+                let temp = cubic_numbers.iter().min().unwrap().pow(3);
+                if temp < min_cube {
+                    min_cube = temp;
+                }
             }
         }
     }
-    //println!("{:?}", cubic );
+    println!("{}", min_cube);
 }
+
+// [5027, 7061, 7202, 8288, 8384]
+// [127035954683, 352045367981, 373559126408, 569310543872, 589323567104]
+// min: 127035954683
+// [5196, 8124, 8496, 9702, 9783]
+// [140283769536, 536178930624, 613258407936, 913237656408, 936302451687]
+// min: 140283769536
