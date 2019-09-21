@@ -12,11 +12,20 @@ fn main() {
     println!("sum: {}", sum);
 }
 
-fn is_palindromic(s:String) -> bool {
-
-    s == s.chars().rev().collect::<String>() 
+fn is_palindromic(s: String) -> bool {
+    let mut c1 = s.chars();
+    let mut c2 = s.chars().rev();
+    for _i in 0..s.len() / 2 {
+        if c1.next().unwrap() != c2.next().unwrap() {
+            return false;
+        }
+    }
+    true
+    //    s == s.chars().rev().collect::<String>()
 }
 
+/*
+// 重复发明轮子
 fn to_radix2_string(n: u64) -> String {
     let mut d = n;
     let mut s:String = "".to_string();
@@ -27,3 +36,4 @@ fn to_radix2_string(n: u64) -> String {
     }
     s
 }
+*/
