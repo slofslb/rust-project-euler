@@ -4,8 +4,11 @@ fn main() {
     let mut max_prime = 0;
     // 不是特别严谨，第1个组合被忽略了
     while next_perm(&mut v) {
-        //let v_str = v.iter().map(|x| x.to_string()).collect::<String>();
-        //let d = v_str.parse::<usize>().unwrap();
+        // 一开始的写法，转换成字符串，再转为整数，不优美
+        // let v_str = v.iter().map(|x| x.to_string()).collect::<String>();
+        // let d = v_str.parse::<usize>().unwrap();
+
+        // vec![1, 2, 3, 4, 5, 6, 7] -> 1234567
         let d = v.iter().fold(0, |x, a| 10 * x + a);
         if primes::is_prime(d as u64) && d > max_prime {
             println!("{}", d);
