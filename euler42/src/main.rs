@@ -16,7 +16,7 @@ fn main() {
 
     let mut count = 0;
     for name in names {
-        let ws = word_score(name);
+        let ws = name.chars().map(|ch| ch as usize - 64).sum();
         if tri_numbers.contains(&ws) {
             println!("{} {}", name, ws);
             count += 1;
@@ -32,15 +32,16 @@ fn remove_quote(s: &str) -> String {
 }
 
 // 单词在字母表中分数
-fn word_score(word: &str) -> usize {
-    word.chars().map(|ch| letter_number(ch) as usize).sum()
+//fn word_score(word: &str) -> usize {
+//    word.chars().map(|ch| ch as usize - 64).sum()
     /*let mut score = 0;
     for ch in word.chars() {
         score += letter_number(ch) as usize;
     }
     score */
-}
+//}
 
+/*
 // 一个字符在字母表中分数，'A' -> 1，'B' -> 2
 fn letter_number(ch: char) -> u8 {
     // 字母A的ASCII编码为65
@@ -48,3 +49,4 @@ fn letter_number(ch: char) -> u8 {
     //let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     //letters.chars().position(|c| c == ch).unwrap() + 1
 }
+*/
