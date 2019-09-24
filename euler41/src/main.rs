@@ -1,8 +1,9 @@
-// 借鉴第24题和37题
+// 借鉴第24题
 fn main() {
     let mut v = [1, 2, 3, 4, 5, 6, 7];
     let mut max_prime = 0;
-    // 不是特别严谨，第1个组合被忽略了
+    // 这里不是特别严谨，第1个组合被忽略了
+    // 如果恰巧 123456789是素数，程序会错过这个结果
     while next_perm(&mut v) {
         // 一开始的写法，转换成字符串，再转为整数，不优美
         // let v_str = v.iter().map(|x| x.to_string()).collect::<String>();
