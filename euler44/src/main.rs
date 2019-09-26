@@ -1,6 +1,8 @@
 fn main() {
+    algo1_slow();
+
     let mut min_d = std::u64::MAX; // 99999999
-    for k in 2.. {
+    for k in 2..5000 {
         let pk = penta(k);
         if pk - penta(k-1) > min_d {break;}
         if k % 100000 == 0 {
@@ -27,23 +29,22 @@ fn is_penta(p:u64) -> bool {
 fn penta(n:u64) -> u64 {
     return n * (3 * n - 1) / 2;
 }
-/*
-fn main() {
-    let mut p: Vec<u64> = vec![];
-    for i in 1..1000000 {
+
+fn algo1_slow() {
+    let mut p: Vec<u64> = vec![0];
+    for i in 1..10000 {
         p.push(i * (3 * i - 1) / 2);
     }
 
     let mut min_d = 99999999;
-    for k in 2..50000 {
+    for k in 2..3000 {
         for j in (1..k).rev() {
             let d = p[k] - p[j];
             let sum = p[k] + p[j];
             if d < min_d && p.contains(&d) && p.contains(&sum) {
-                println!("{} {} {}", p[j], p[k], d);
+                println!("j:{} k:{} pj:{} pk:{} diff:{}", j, k, p[j], p[k], d);
                 min_d = d;
             }
         }
     }
 }
-*/
