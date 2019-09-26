@@ -1,3 +1,48 @@
+fn main() {
+    let mut v = [7, 6, 5, 4, 3, 2, 1];
+    loop {
+        let d = v.iter().fold(0, |x, a| 10 * x + a);
+        if primes::is_prime(d as u64) {
+            println!("{}", d);
+            break;
+        }
+        next_perm_desc(&mut v);
+    }
+}
+// 7652413
+// 降序全排列
+fn next_perm_desc(v: &mut [u64]) -> bool {
+    let mut i = v.len() - 2;
+    while v[i] < v[i + 1] {
+        if i == 0 {
+            return false;
+        }
+        i -= 1;
+    }
+
+    let mut j = v.len() - 1;
+    while i < j && v[i] < v[j] {
+        j -= 1;
+    }
+
+    swap(v, i, j);
+
+    i += 1;
+    j = v.len() - 1;
+    while i < j {
+        swap(v, i, j);
+        i += 1;
+        j -= 1;
+    }
+    true
+}
+
+fn swap(v: &mut [u64], i: usize, j: usize) {
+    let temp = v[i];
+    v[i] = v[j];
+    v[j] = temp;
+}
+/*
 // 借鉴第24题，再改为依赖第三方的排列组合库来实现
 use permutohedron::heap_recursive;
 
@@ -15,4 +60,4 @@ fn main() {
         }
     })
 }
-// 7652413
+*/
