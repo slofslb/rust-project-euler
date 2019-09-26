@@ -1,7 +1,7 @@
 // problem 8, 24
 fn main() {
     let mut v = [1, 0, 2, 3, 4, 5, 6, 7, 8, 9];
-    let primes = [0, 2, 3, 5, 7, 11, 13, 17];
+    let primes = [2, 3, 5, 7, 11, 13, 17];
     let mut sum: u64 = 0;
     loop {
         let v_str = v.iter().map(|x| x.to_string()).collect::<String>();
@@ -10,7 +10,7 @@ fn main() {
         for i in 1..=7 {
             let sub3 = &v_str[i..i + 3];
             let d = sub3.parse::<u32>().unwrap();
-            if d % primes[i] != 0 {
+            if d % primes[i-1] != 0 {
                 break;
             }
             if i == 7 {
