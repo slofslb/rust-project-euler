@@ -6,7 +6,9 @@ fn main() {
             println!("{}", d);
             break;
         }
-        next_perm_desc(&mut v);
+        if !next_perm_desc(&mut v) {
+            break;
+        }
     }
 }
 // 7652413
