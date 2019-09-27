@@ -1,19 +1,17 @@
 fn main() {
-    let mut t: Vec<u64> = vec![];
+    let mut tri: Vec<u64> = vec![];
     for i in 1..100000 {
-        t.push(i * (i + 1) / 2);
+        tri.push(i * (i + 1) / 2);
     }
-    //println!("{:?}", t);
 
-    let mut p: Vec<u64> = vec![];
+    let mut penta: Vec<u64> = vec![];
     for i in 1..100000 {
-        p.push(i * (3 * i - 1) / 2);
+        penta.push(i * (3 * i - 1) / 2);
     }
-    //println!("{:?}", p);
 
-    for i in 100..30000 {
+    for i in 2..30000 {
         let hex = i * (2 * i - 1);
-        if t.contains(&hex) && p.contains(&hex) {
+        if tri.contains(&hex) && penta.contains(&hex) {
             println!("i: {}  hexagonal: {}", i, hex);
         }
     }
