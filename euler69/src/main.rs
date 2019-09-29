@@ -1,25 +1,33 @@
-fn main() {
-    let max_check_number = 1_000_000;
-    let mut phi = vec![0; max_check_number + 1];
+use primes::PrimeSet;
 
-    let mut max_n_phi = 0_f32;
-    for n in 2..=10 {
+fn main() {
+    let mut max_ratio_n_phi = 0_f32;
+    for n in 2..=3000 {
+        let mut phi = 0;
         for i in 1..n {
+            // 最大公约数为1，表示互质
             if gcd(i, n) == 1 {
-                for k in 1..i {
-                    phi[k] += 1;
-                }
+                phi += 1;
             }
         }
-        let n_phi = (n as f32) / (phi as f32);
-        if n_phi > max_n_phi {
-            println!("n={} n/phi={}", n, n_phi);
-            max_n_phi = n_phi;
+        let ratio_n_phi = (n as f32) / (phi as f32);
+        if ratio_n_phi > max_ratio_n_phi {
+            println!("n= {}  n/phi= {}", n, ratio_n_phi);
+            max_ratio_n_phi = ratio_n_phi;
         }
+    }
+    let mut pset = PrimeSet::new();
+    let mut prod = 1;
+    for p in pset.iter() {
+        prod *= p;
+        if prod > 1_000_000 {
+            break;
+        }
+        println!("{}", prod);
     }
 }
 
-fn gcd(a: u32, b: u32) -> u32 {
+fn gcd(a: u64, b: u64) -> u64 {
     if b == 0 {
         a
     } else {

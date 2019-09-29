@@ -18,6 +18,9 @@ http://pe-cn.github.io
 * [第7~12题](https://mp.weixin.qq.com/s/GFZj_yPY-R9XU__KHqRmvA)
 * [第13~16题](https://mp.weixin.qq.com/s/6edK0fgCPSoN12k6spBdnw)
 * [第17~21题](https://mp.weixin.qq.com/s/vZo7qZBLwgxG3d1ia5xKGg)
+* [第22~25题](https://mp.weixin.qq.com/s/QTT6JzMRY2eoyzvXzQvkrQ)
+* [第26题](https://mp.weixin.qq.com/s/8VO7y6jNsJuJp8lGQc7PIA)
+* [第27~31题](https://mp.weixin.qq.com/s/IoPouBKl7Mo2tAKWEyXEQg)
 
 
 可以在projecteuler中添加下面这个key，加我为好友，一起学习。
