@@ -19,10 +19,10 @@ fn main() {
                 vy.push(y);
             }
         });
-        //
-        if vy.len() >= 2 {
-            println!("{} {:?}", x, vy);
-        }
+        
+        //if vy.len() >= 2 {
+        //    println!("{} {:?}", x, vy);
+        //}
 
         for &y in vy.iter() {
             // 按等差关系形成第三个数
