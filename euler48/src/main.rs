@@ -6,7 +6,8 @@ fn main() {
     for a in 1..=1000 {
         sum += power(a, a);
     }
-    println!("{}", sum);
+    let str_sum = sum.to_string();
+    println!("{}", &str_sum[str_sum.len()-10..]);
 }
 
 fn power(a: u64, b: u64) -> BigUint {
