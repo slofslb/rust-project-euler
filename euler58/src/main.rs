@@ -1,3 +1,4 @@
+// 大量素数的判断时，用PrimeSet，比primes::is_prime()要快
 use primes::PrimeSet;
 
 fn main() {
@@ -5,8 +6,8 @@ fn main() {
 
     let mut count_prime = 0;
     for n in (3..).step_by(2) {
-        let lower_right = n * n; 
-        count_prime += (0..4) 
+        let lower_right = n * n;
+        count_prime += (0..4)
             .map(|x| lower_right - (n - 1) * x) // 四个对象线上的数字
             .filter(|&x| pset.is_prime(x))
             .count();
