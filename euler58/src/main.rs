@@ -8,7 +8,7 @@ fn main() {
     for n in (3..).step_by(2) {
         let lower_right = n * n;
         let prime_four_corner = (0..4)
-            .map(|x| lower_right - (n - 1) * x) 
+            .map(|x| lower_right - (n - 1) * x)
             .filter(|&x| pset.is_prime(x));
         count_prime += prime_four_corner.count();
 
