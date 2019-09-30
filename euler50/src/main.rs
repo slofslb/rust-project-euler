@@ -17,10 +17,11 @@ fn main() {
                 }
                 if count > prime_len && primes::is_prime(sum) {
                     prime_len = count;
-                    println!("start: {} len: {} sum: {}", start, prime_len, sum);
+                    println!("start: {} consecutive primes len: {} sum: {}", start, prime_len, sum);
                 }
             }
         }
     }
 }
+// 997651
 
