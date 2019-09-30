@@ -11,8 +11,9 @@ fn main() {
         b = c;
         if a.to_string().len() > b.to_string().len() {
             count += 1;
-            println!("{} {}", a, b);
+            //println!("{} {}", a, b);
         }
     }
     println!("{}", count);
 }
+// 153
