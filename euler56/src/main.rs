@@ -10,7 +10,7 @@ fn main() {
             if sum_digits > max_sum {
                 max_sum = sum_digits;
                 println!(
-                    "a: {} b: {} len: {} sum of digits: {}",
+                    "{} ^ {} len: {} sum of digits: {}",
                     a,
                     b,
                     s.len(),
