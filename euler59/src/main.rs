@@ -3,7 +3,6 @@ fn main() {
     let xs: Vec<&str> = data.split(",").collect();
     let letters: Vec<u8> = xs.iter().map(|x| x.parse::<u8>().unwrap()).collect();
 
-    // 用统计方法，尝试可能的密码，如果得到的明文中包含的英文字母越多，越可能是正确的密码。
     let key = [
         guess_pass(&letters, 0),
         guess_pass(&letters, 1),
@@ -22,10 +21,12 @@ fn main() {
     println!("{}", sum);
 }
 
+// 用统计方法，尝试可能的密码，如果得到的明文中包含的英文字母越多，越可能是正确的密码
 fn guess_pass(letters: &Vec<u8>, index: usize) -> char {
-    let mut key = '.';
+    let mut key = '*';
     let mut max_count = 0;
     for pass in ('a' as u8)..=('z' as u8) {
+        // 统计次数
         let mut count = 0;
         for (i, ch) in letters.iter().enumerate() {
             if i % 3 == index {
@@ -35,6 +36,7 @@ fn guess_pass(letters: &Vec<u8>, index: usize) -> char {
                 }
             }
         }
+        // 出现单词最多的，可能就是正确的密钥
         if count > max_count {
             max_count = count;
             key = pass as char;
