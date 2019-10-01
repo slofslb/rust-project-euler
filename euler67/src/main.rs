@@ -1,11 +1,11 @@
+// 第18题的强化版
 fn main() {
     let data = std::fs::read_to_string("triangle.txt").expect("读文件失败");
-    let data2 = data.trim().replace("\n", " ");
+    let data2 = data.trim().replace("\r\n", " ").replace("\n", " ");
     let w: Vec<usize> = data2
         .split(" ")
         .map(|x| x.parse::<usize>().unwrap())
         .collect();
-    //println!("{:?}", w);
 
     let path = compute_path_weight(&w);
     println!("{:?}", path[0]);
