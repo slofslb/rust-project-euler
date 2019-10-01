@@ -10,6 +10,7 @@ fn main() {
     let path = compute_path_weight(&w);
     println!("{:?}", path[0]);
 }
+// 7273
 
 fn compute_path_weight(w: &Vec<usize>) -> Vec<usize> {
     let mut path: Vec<usize> = vec![0; w.len()];
