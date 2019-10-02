@@ -4,13 +4,28 @@ fn main() {
     for i in (start..=end).step_by(10) {
         let m = i * i;
         if meet_cond(m) {
-            println!("{} {}", i, m);
+            println!("{} ^ 2 = {}", i, m);
             break;
         }
     }
 }
+// 1389019170
 
+// 1_2_3_4_5_6_7_8_9_0
 fn meet_cond(m: u64) -> bool {
+    let mut x = m / 100;
+    let mut digit = 9;
+    while x != 0 {
+        if x % 10 != digit {
+            return false;
+        }
+        x /= 100;
+        digit -= 1;
+    }
+    true
+}
+
+fn meet_cond2(m: u64) -> bool {
     let chars: Vec<u32> = m
         .to_string()
         .chars()
