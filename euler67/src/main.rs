@@ -8,7 +8,7 @@ fn main() {
         .collect();
 
     let path = compute_path_weight(&w);
-    println!("{:?}", path[0]);
+    println!("{}", path[0]);
 }
 // 7273
 
@@ -28,6 +28,7 @@ fn compute_path_weight(w: &Vec<usize>) -> Vec<usize> {
     return path;
 }
 
+// 节点的行号，顶层的行号为1
 fn row(n: usize) -> usize {
     let mut s = 0;
     for r in 1.. {
