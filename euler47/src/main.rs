@@ -7,7 +7,7 @@ fn main() {
         }
     }
     // 另一种写法
-    let n = (2..).filter(|x| meet_cond(*x)).take(1).next().unwrap();
+    let n = (2..).filter(|x| meet_cond(*x)).next().unwrap();
     println!("{:?}", n);
 }
 // 134043
