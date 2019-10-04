@@ -11,6 +11,8 @@ fn main() {
     if i == 1 {
         println!("not found");
     }
+    // 另一种方法，用primes函数库
+    println!("{:?}", primes::factors_uniq(600851475143).last().unwrap());
 }
 // 6857
 
