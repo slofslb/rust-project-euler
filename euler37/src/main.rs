@@ -2,7 +2,7 @@ fn main() {
     let mut count = 0;
     let mut sum = 0;
     for n in 10.. {
-        if is_trun_left_prime(n) && is_trun_right_prime(n) {
+        if is_trunc_left_prime(n) && is_trunc_right_prime(n) {
             println!("{}", n);
             count += 1;
             sum += n;
@@ -11,9 +11,10 @@ fn main() {
     }
     println!("sum: {}", sum);
 }
+// 748317
 
 // 左截素数
-fn is_trun_left_prime(n: u64) -> bool {
+fn is_trunc_left_prime(n: u64) -> bool {
     let mut s = n.to_string();
     while s.len() > 0 {
         let p = s.parse::<u64>().unwrap();
@@ -26,14 +27,13 @@ fn is_trun_left_prime(n: u64) -> bool {
 }
 
 // 右截素数
-fn is_trun_right_prime(n: u64) -> bool {
-    let mut s = n.to_string();
-    while s.len() > 0 {
-        let p = s.parse::<u64>().unwrap();
-        if !primes::is_prime(p) {
+fn is_trunc_right_prime(n: u64) -> bool {
+    let mut m = n;
+    while m > 0 {
+        if !primes::is_prime(m) {
             return false;
         }
-        s.pop();
+        m /= 10;
     }
     true
 }
