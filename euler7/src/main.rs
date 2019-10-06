@@ -1,5 +1,5 @@
 fn main() {
-    let max_number_to_check = 1000000;
+    let max_number_to_check = 1_000_000;
 
     let mut prime_mask = vec![true; max_number_to_check];
     prime_mask[0] = false;
