@@ -1,16 +1,9 @@
 fn main() {
     for i in 2.. {
-        let num = (1..=i).sum::<u32>();
-        let f = factors(num);
+        let triange_num = (1..=i).sum::<u32>();
+        let f = factors(triange_num);
         if f.len() * 2 > 500 {
-            println!(
-                "i:{} num:{} len:{} half of factors:{:?}",
-                i,
-                num,
-                2 * f.len(),
-                f
-            );
-            println!("{}", num);
+            println!("{}", triange_num);
             break;
         }
     }
