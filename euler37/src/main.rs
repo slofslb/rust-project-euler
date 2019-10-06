@@ -10,6 +10,10 @@ fn main() {
         }
     }
     println!("sum: {}", sum);
+
+    // 另一种写法
+    println!("{}", (10..).filter(|&n| is_trunc_left_prime(n) && is_trunc_right_prime(n))
+    .take(11).sum::<u64>());
 }
 // 748317
 
