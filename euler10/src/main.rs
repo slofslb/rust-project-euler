@@ -1,3 +1,5 @@
+use primes::PrimeSet;
+
 fn main() {
     let max_number_to_check = 2_000_000;
 
@@ -19,4 +21,10 @@ fn main() {
         }
     }
     println!("{}", sum);
+
+    // 另一种写法
+    let mut pset = PrimeSet::new();
+    println!("{}", (2..2_000_000).filter(|x| pset.is_prime(*x)).sum::<u64>());
+    // 或者：
+    println!("{}", (2..2_000_000).filter(|x| primes::is_prime(*x)).sum::<u64>());
 }
