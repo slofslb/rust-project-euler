@@ -28,3 +28,4 @@ fn main() {
     // 或者：
     println!("{}", (2..2_000_000).filter(|x| primes::is_prime(*x)).sum::<u64>());
 }
+// 142913828922
