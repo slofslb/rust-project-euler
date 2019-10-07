@@ -1,4 +1,27 @@
+fn main() {
+    println!("{}", ways(200, 0));
+}
+
+fn ways(money: isize, maxcoin: usize) -> usize {
+    let coins = [200, 100, 50, 20, 10, 5, 2, 1];
+    let mut sum = 0;
+    if maxcoin == 7 {
+        return 1;
+    }
+    for i in maxcoin..8 {
+        if money - coins[i] == 0 {
+            sum += 1;
+        }
+        if money - coins[i] > 0 {
+            sum += ways(money - coins[i], i);
+        }
+    }
+    sum
+}
+// 73682
+
 // ugly, but can work!
+/*
 fn main() {
     let mut count = 0;
     for a in 0..=200 {
@@ -30,3 +53,4 @@ fn main() {
     }
     println!("{}", count);
 }
+*/
