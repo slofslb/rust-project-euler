@@ -3,11 +3,12 @@ use num_bigint::BigUint;
 
 fn main() {
     let mut v: Vec<BigUint> = vec![];
-    for a in 2..=100 {
-        for b in 2..=100 {
-            let x = power(a, b);
-            if !v.contains(&x) {
-                v.push(x);
+    for a in 2_u64..=100 {
+        let mut prod = BigUint::from(a);
+        for _b in 2_u64..=100 {
+            prod *= BigUint::from(a);
+            if !v.contains(&prod) {
+                v.push(prod.clone());
             }
         }
     }
