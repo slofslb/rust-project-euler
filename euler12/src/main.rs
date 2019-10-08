@@ -18,8 +18,9 @@ fn main() {
             .unwrap()
     );
 
+    // 也可以这样写
     println!(
-        "{:?}",
+        "{}",
         (2..)
             .map(|i| (1..=i).sum::<u32>())
             .find(|&x| factors(x).len() * 2 > 500)
