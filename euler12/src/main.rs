@@ -17,6 +17,14 @@ fn main() {
             .next()
             .unwrap()
     );
+
+    println!(
+        "{:?}",
+        (2..)
+            .map(|i| (1..=i).sum::<u32>())
+            .find(|&x| factors(x).len() * 2 > 500)
+            .unwrap()
+    );
 }
 // 76576500
 
