@@ -7,6 +7,16 @@ fn main() {
             break;
         }
     }
+
+    // 另一种写法
+    println!(
+        "{}",
+        (2..)
+            .map(|i| (1..=i).sum::<u32>())
+            .filter(|&x| factors(x).len() * 2 > 500)
+            .next()
+            .unwrap()
+    );
 }
 // 76576500
 
