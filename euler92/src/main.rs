@@ -6,6 +6,8 @@ fn main() {
         }
     }
     println!("{}", count);
+
+    println!("{}", (1..10_000_000).filter(|&x| square_chain_arrive(x) == 89).count());
 }
 // 8581146
 
