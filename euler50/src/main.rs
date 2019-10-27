@@ -1,4 +1,13 @@
+use primes::PrimeSet;
+
 fn main() {
+    let mut pset = PrimeSet::new();
+    let mut vp = vec![];
+    for p in pset.iter() {
+        if p > 1_000_000 {break;}
+        vp.push(p);
+    }
+
     let limit = 1_000_000;
     // 记录连续素数的长度
     let mut prime_len = 1;
