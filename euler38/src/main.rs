@@ -1,13 +1,13 @@
 fn main() {
     let mut max = "".to_string();
-    for a in 1..=9876 {
+    for n in 1..=9999 {
         let mut s = String::from("");
-        for n in 1..=9 {
-            let prod = a * n;    
+        for i in 1..=9 {
+            let prod = n * i;    
             s.push_str(&prod.to_string());
             if !contains_only_once_1to9(&s) {break;}
             if s.len() == 9 && s > max {
-                println!("{} {} {}", a, n, s);
+                println!("{} {} {}", n, i, s);
                 max = s.clone();
             }
         }
