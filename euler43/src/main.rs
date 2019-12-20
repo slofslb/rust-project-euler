@@ -1,33 +1,32 @@
 // problem 8, 24
 fn main() {
-    let mut v = [1, 0, 2, 3, 4, 5, 6, 7, 8, 9];
-    let primes = [0, 2, 3, 5, 7, 11, 13, 17];
+    let mut v = [0, 9, 8, 7, 6, 5, 4, 3, 2, 1];
     let mut sum: u64 = 0;
-    loop {
-        let v_str = v.iter().map(|x| x.to_string()).collect::<String>();
-        //println!("{}", v_str);
-
-        for i in 1..=7 {
-            let sub3 = &v_str[i..i + 3];
-            let d = sub3.parse::<u32>().unwrap();
-            if d % primes[i] != 0 {
-                break;
-            }
-            if i == 7 {
-                println!("{}", v_str);
-                sum += v_str.parse::<u64>().unwrap();
-            }
-        }
-
-        if !next_perm(&mut v) {
-            break;
+    while next_perm(&mut v) {
+        let num = v.iter().fold(0, |x, a| 10 * x + a);
+        if is_divisibility(num) {
+            println!("{}", num);
+            sum += num;
         }
     }
     println!("sum: {}", sum);
 }
 // 16695334890
 
-fn next_perm(v: &mut [u32]) -> bool {
+fn is_divisibility(num: u64) -> bool {
+    let primes = [2, 3, 5, 7, 11, 13, 17];
+    let mut n = num % 1_000_000_000;
+    for i in (0..=6).rev() {
+        let sub3 = n % 1000;
+        if sub3 % primes[i] != 0 {
+            return false;
+        }
+        n = n / 10;
+    }
+    true
+}
+
+fn next_perm(v: &mut [u64]) -> bool {
     let mut i = v.len() - 2;
     while v[i] > v[i + 1] {
         if i == 0 {
@@ -53,7 +52,7 @@ fn next_perm(v: &mut [u32]) -> bool {
     true
 }
 
-fn swap(v: &mut [u32], i: usize, j: usize) {
+fn swap(v: &mut [u64], i: usize, j: usize) {
     let temp = v[i];
     v[i] = v[j];
     v[j] = temp;

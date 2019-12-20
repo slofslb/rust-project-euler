@@ -7,7 +7,7 @@ fn main() {
 
     let mersenne = [2; 7830457]
         .iter()
-        .fold(28433_u64, |s, _| s * 2 % 10_000_000_000)
+        .fold(28433_u64, |s, x| s * x % 10_000_000_000)
         + 1;
     println!("{}", mersenne);
 }

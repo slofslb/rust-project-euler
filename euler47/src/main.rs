@@ -1,25 +1,27 @@
-//use primes::PrimeSet;
-
+// 有许多重复计算，没做优化
 fn main() {
-    // 有许多重复计算，没做优化
     for n in 2.. {
-        let af = primes::factors_uniq(n);
-        let bf = primes::factors_uniq(n + 1);
-        let cf = primes::factors_uniq(n + 2);
-        let df = primes::factors_uniq(n + 3);
-        if af.len() == 4
-            && bf.len() == 4
-            && cf.len() == 4
-            && df.len() == 4
-            && af != bf
-            && af != cf
-            && af != df
-            && bf != cf
-            && bf != df
-            && cf != df
-        {
-            println!("{} {:?} {:?} {:?} {:?}", n, af, bf, cf, df);
+        if has_four_factors_uniq(n) {
+            println!("{}", n);
             break;
         }
     }
+    // 另一种写法
+    let n = (2..).filter(|x| has_four_factors_uniq(*x)).next().unwrap();
+    println!("{:?}", n);
+}
+// 134043
+
+fn has_four_factors_uniq(n: u64) -> bool {
+    let xf = primes::factors_uniq(n);
+    if xf.len() != 4 {
+        return false;
+    }
+    for i in 1..=3 {
+        let yf = primes::factors_uniq(n + i);
+        if yf.len() != 4 || xf == yf {
+            return false;
+        }
+    }
+    true
 }

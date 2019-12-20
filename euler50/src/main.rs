@@ -1,43 +1,36 @@
-fn main() {
-    let max_number_to_check = 1000_000;
-    let mut prime_mask = vec![true; max_number_to_check];
-    fill_prime_mask(&mut prime_mask);
+use primes::PrimeSet;
 
-    let mut len = 1;
-    for start in 2..1000_000 {
-        if !prime_mask[start] {
+fn main() {
+    let mut pset = PrimeSet::new();
+    let mut vp = vec![];
+    for p in pset.iter() {
+        if p > 1_000_000 {break;}
+        vp.push(p);
+    }
+
+    let limit = 1_000_000;
+    // 记录连续素数的长度
+    let mut prime_len = 1;
+    for start in 2..=limit {
+        if !primes::is_prime(start) {
             continue;
         }
         let mut count = 1;
         let mut sum = start;
-        for i in start + 1..1000_000 {
-            if prime_mask[i] {
+        for i in start + 1..=limit {
+            if primes::is_prime(i) {
                 count += 1;
                 sum += i;
-                if sum > 1_000_000 {
+                if sum >= limit {
                     break;
                 }
-                if count > len && prime_mask[sum] {
-                    len = count;
-                    println!("start: {} len: {} sum: {}", start, len, sum);
+                if count > prime_len && primes::is_prime(sum) {
+                    prime_len = count;
+                    println!("start: {} consecutive primes len: {} sum: {}", start, prime_len, sum);
                 }
             }
         }
     }
 }
+// 997651
 
-fn fill_prime_mask(prime_mask: &mut [bool]) {
-    prime_mask[0] = false;
-    prime_mask[1] = false;
-
-    const FIRST_PRIME_NUMBER: usize = 2;
-    for p in FIRST_PRIME_NUMBER..prime_mask.len() {
-        if prime_mask[p] {
-            let mut i = 2 * p;
-            while i < prime_mask.len() {
-                prime_mask[i] = false;
-                i += p;
-            }
-        }
-    }
-}

@@ -1,28 +1,27 @@
 fn main() {
     let data = std::fs::read_to_string("keylog.txt").expect("打开文件失败");
-    let lines = data.trim().split("\n");
+    let data2 = data.trim().replace("\r", "");
+    let lines = data2.split("\n");
 
-    let mut kv: Vec<(&str, &str)> = vec![];
+    let mut set: Vec<(&str, &str)> = vec![];
     for line in lines {
         let a = &line[..1];
         let b = &line[1..=1];
         let c = &line[2..];
-        kv.push((a, b));
-        kv.push((b, c));
-        /*        if !kv.contains(&(a,b)) {
-                    kv.push((a,b));
-                }
-                if !kv.contains(&(b,c)) {
-                    kv.push((b,c));
-                }
-        */
+        if !set.contains(&(a, b)) {
+            set.push((a, b));
+        }
+        if !set.contains(&(b, c)) {
+            set.push((b, c));
+        }
     }
 
     // generate a graphviz format file
+    // graphviz.org download & install software, generate graph!
     println!("digraph G {{");
-    println!("rankdir=LR;");
-    for (a, b) in kv {
-        println!("{} -> {};", a, b);
+    println!("  rankdir=LR;");
+    for (a, b) in set {
+        println!("  {} -> {};", a, b);
     }
     println!("}}");
 }

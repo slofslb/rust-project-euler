@@ -9,7 +9,7 @@ fn main() {
         a *= BigUint::from(n as u64);
         fact[n] = a.clone();
     }
-    println!("{:?}", fact);
+    //println!("{:?}", fact);
 
     let mut count = 0;
     for n in 1..=100 {
@@ -17,7 +17,14 @@ fn main() {
             let comb = &fact[n] / &fact[r] / &fact[n - r];
             if comb > BigUint::from(1_000_000 as u64) {
                 println!("{} {} {}", n, r, comb.to_string());
-                count += 1;
+                // count += 1;
+                // 把上面count += 1换成下面两行，可以大幅优化性能
+                // 比如C(90, 1), C(90, 2), C(90, 3)都小于1百万
+                // 在C(90, 4)时，值大于1百万
+                // 根据组合数的性质，C(90, 86) 一定也肯定大于1百万
+                // 这样不用进行大量的计算，可以知道大于1百万的组合有 86-4+1 = 83组
+                count += n - r - r + 1;
+                break;
             }
         }
     }

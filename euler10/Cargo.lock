@@ -3,4 +3,14 @@
 [[package]]
 name = "euler10"
 version = "0.1.0"
+dependencies = [
+ "primes 0.2.3 (registry+https://github.com/rust-lang/crates.io-index)",
+]
 
+[[package]]
+name = "primes"
+version = "0.2.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+
+[metadata]
+"checksum primes 0.2.3 (registry+https://github.com/rust-lang/crates.io-index)" = "b86865a31cec4ff702cb1e8fe2bc0ca4b31228f85156ebb2cf117c2b96d0c589"
