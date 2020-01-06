@@ -18,10 +18,10 @@ fn main() {
 
     let mut count = 0;
     for n in 7.. {
-        let t = (n as f64) * 2.0_f64.log10();
+        let t = (n as f64) * 2_f64.log10();
         let m = t - t.floor() + 2.0;
-        let m = 10_f64.powf(m).floor() as u64;
-        if m == 123 {
+        let head = 10_f64.powf(m) as u32;
+        if head == 123 {
             count += 1;
             println!("p(123, {}) = {} ", count, n);
             if count == 678910 {
