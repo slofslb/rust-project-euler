@@ -1,7 +1,7 @@
 fn main() {
     let mut count = 0;
     for n in 7..100 {
-        let t = (n as f64) * 2.0_f64.log10();
+        let t = (n as f64) * 2_f64.log10();
         let m = t - t.floor() + 1.0;
         let m = 10_f64.powf(m).floor() as u64;
         if m == 12 {
@@ -20,10 +20,13 @@ fn main() {
     for n in 7.. {
         let t = (n as f64) * 2_f64.log10();
         let m = t - t.floor() + 2.0;
-        let head = 10_f64.powf(m) as u32;
+        let head = 10_f64.powf(m) as u64;
         if head == 123 {
             count += 1;
             println!("p(123, {}) = {} ", count, n);
+            if count == 45 {
+                assert_eq!(n, 12710, "p(123, 45) = 12710");
+            }
             if count == 678910 {
                 break;
             }
