@@ -12,7 +12,7 @@ fn main() {
     //println!("{:?}", fact);
 
     let mut s = 0;
-    for n in 10..=10 {
+    for n in 1..=10 {
         let mut b = BigUint::from(1_u64);
         for r in 1..=n {
             let comb = &fact[n] / &fact[r] / &fact[n - r];
@@ -47,12 +47,14 @@ fn main() {
     println!("{:?}", temp);
 
     let mut s = 0;
-    for n in 1..=100 {
+    for n in 1..=10 {
         let rrr = factors_b(n);
-        //println!("{:?}", rrr);
+
+        let map = factors_to_hash_map(&rrr);
+        println!("{:?}", map);
     
         let temp = factors_sum(&rrr);
-        println!("D({}) = {:?}", n, temp);
+        //println!("D({}) = {:?}", n, temp);
 
         s = (s + temp) % 1_000_000_007_u64;
         println!("S({}) = {}", n, s);
@@ -67,9 +69,10 @@ fn factors_sum(v: &Vec<u64>) -> u64 {
     for p in uniq {
         let c = v.iter().filter(|&x| *x == p).count() as u64;
         let t = (big_pow(p, c+1) - BigUint::from(1_u64)) / (BigUint::from(p-1));
-        //println!("{} {} {}", p, c, t);
+        //print!("({} ^ {}) ", p, c);
         prod = (prod * t);// % 1_000_000_007_u64;
     }
+    //println!("");
     let prod = prod % 1_000_000_007_u64;
     prod.to_string().parse::<u64>().unwrap()
 }
@@ -87,7 +90,11 @@ fn big_pow(a:u64, b:u64) -> BigUint {
 fn factors_b(n:u64) -> Vec<u64>{
     let mut factors = vec![];
     for i in 1..=n {
-        let mut f = comb_factors(n, i);
+        let mut r = i;
+        if n-r < i {
+            r = n-r;
+        }
+        let mut f = comb_factors(n, r);
         factors.append(&mut f);
     }
     factors.sort();
@@ -120,4 +127,43 @@ fn comb_factors(m:u64, n:u64) -> Vec<u64> {
         vec_remove(&mut factors, &f);
     }
     factors.to_vec()
+}
+
+use std::collections::HashMap;
+
+/* error
+fn comb_factors_hash_map(m:u64, n:u64) -> HashMap<u64, u64> {
+    let mut map = HashMap::new();
+    let mut lastmap = HashMap::new();
+    for x in 1..n {
+        let mut f = primes::factors(x);
+        lastmap = factors_to_hash_map(&f);
+        factors.append(&mut f);
+        x -= 1;
+    }
+    factors.sort();
+    //println!("{:?}", factors);
+    for i in 2..=n {
+        let f = primes::factors(i);
+        //println!("{} {:?}", n, f);
+        vec_remove(&mut factors, &f);
+    }
+    factors.to_vec()
+}
+*/
+
+fn factors_to_hash_map(factors:&Vec<u64>) -> HashMap<u64, u64> {
+    let mut map = HashMap::new();
+    for f in factors {
+        let v = map.get(f).cloned(); // 如果不写cloned()，有警告，不理解原因
+        match v {
+            Some(x) => {
+                map.insert(*f, x+1);
+            }
+            None => {
+                map.insert(*f, 1);
+            }
+        }
+    }
+    map
 }
