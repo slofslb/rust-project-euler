@@ -1,6 +1,9 @@
 extern crate num_bigint;
 use num_bigint::BigUint;
 
+// use num_traits::pow;
+use num_traits::pow;
+
 #[macro_use]
 extern crate lazy_static;
 lazy_static! {
@@ -92,8 +95,11 @@ fn main() {
     let mut map = HashMap::new();
     let mut s = 1;
     for n in 2..=10000 {
+        /*
         let f = primes::factors(n);
         let factor_n = factors_to_hash_map(&f);
+        */
+        let factor_n = &FACTORS[n as usize];
         hash_map_add_count(&mut map, &factor_n, n-1);
         /*
         for i in 0..n-1 {
@@ -111,6 +117,7 @@ fn main() {
         */
     
         let d = factors_hash_map_sum(&map);
+        //println!("{:?}", &map);
         //println!("D({}) = {:?}", n, d);
 
         s = (s + d) % 1_000_000_007_u64;
@@ -127,8 +134,10 @@ fn factors_sum(v: &Vec<u64>) -> u64 {
 
     let mut prod = BigUint::from(1_u64);
     for p in uniq {
-        let c = v.iter().filter(|&x| *x == p).count() as u64;
-        let t = (big_pow(p, c+1) - BigUint::from(1_u64)) / (BigUint::from(p-1));
+        let c = v.iter().filter(|&x| *x == p).count() as usize;
+        let t1 = pow(BigUint::from(p), c+1);
+        let t = (t1 - BigUint::from(1_u64)) / (BigUint::from(p-1));
+        //let t = (big_pow(p, c+1) - BigUint::from(1_u64)) / (BigUint::from(p-1));
         //print!("({} ^ {}) ", p, c);
         prod = (prod * t);// % 1_000_000_007_u64;
     }
@@ -216,7 +225,10 @@ fn comb_factors_hash_map(m:u64, n:u64) -> HashMap<u64, u64> {
 fn factors_hash_map_sum(map: &HashMap<u64, u64>) -> u64 {
     let mut prod = BigUint::from(1_u64);
     for (&f, count) in map {
-        let t = (big_pow(f, count+1) - BigUint::from(1_u64)) / (BigUint::from(f-1));
+        let t1 = pow(BigUint::from(f), *count as usize + 1);
+        let t = (t1 - BigUint::from(1_u64)) / (BigUint::from(f-1));
+
+//        let t = (big_pow(f, count+1) - BigUint::from(1_u64)) / (BigUint::from(f-1));
         //print!("({} ^ {}) ", p, c);
         prod = prod * t;// % 1_000_000_007_u64;
     }
