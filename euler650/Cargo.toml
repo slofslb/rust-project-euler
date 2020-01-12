@@ -9,3 +9,4 @@ edition = "2018"
 [dependencies]
 num-bigint = "0.2"
 primes = "0.2"
+lazy_static = "1.4.0"

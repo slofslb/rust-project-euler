@@ -1,8 +1,51 @@
 extern crate num_bigint;
 use num_bigint::BigUint;
 
+#[macro_use]
+extern crate lazy_static;
+lazy_static! {
+    static ref FACTORS: Vec<HashMap<u64,u64>> = {
+        let mut factors_all = vec![HashMap::new()];
+        for i in 1..=20000 {
+            let f = primes::factors(i);
+            let a = factors_to_hash_map(&f);
+            factors_all.push(a);
+        }
+        factors_all
+    };
+
+    static ref FF: Vec<HashMap<u64,u64>> = {
+        let mut v = vec![HashMap::new()];
+        for i in 1..=20000 {
+            let mut map = v[i-1].clone();
+            let f = primes::factors(i as u64);
+            let a = factors_to_hash_map(&f);
+            hash_map_add(&mut map, &a);
+            v.push(map);
+        }
+        //println!("{:?}", v);
+        v
+    };
+
+    static ref POWS: HashMap<u64, BigUint> = {
+        let mut map = HashMap::new();
+        for i in 2..20 {
+            if primes::is_prime(i) {
+                let mut prod = BigUint::from(i as u64);
+                for j in 2..20 {
+                    prod = prod * BigUint::from(i as u64);
+                    map.insert(i*100000 + j, prod.clone());
+                }
+            }
+        }
+        map
+    };
+}
+
 fn main() {
-    // 先把一些阶乘计算好，保存起来
+
+
+
     let mut fact = vec![BigUint::from(1 as u64); 101];
     let mut a = BigUint::from(1 as u64);
     for n in 2..=100 {
@@ -46,19 +89,36 @@ fn main() {
     let temp = factors_sum(&rrr);
     println!("{:?}", temp);
 
-    let mut s = 0;
-    for n in 1..=10 {
-        let rrr = factors_b(n);
-
-        let map = factors_to_hash_map(&rrr);
-        println!("{:?}", map);
+    let mut map = HashMap::new();
+    let mut s = 1;
+    for n in 2..=10000 {
+        let f = primes::factors(n);
+        let factor_n = factors_to_hash_map(&f);
+        hash_map_add_count(&mut map, &factor_n, n-1);
+        /*
+        for i in 0..n-1 {
+            hash_map_add(&mut map, &factor_n);
+        }
+        */
+        let m = &FF[n as usize - 1];
+        hash_map_substract(&mut map, &m);
+        /*
+        for i in 2..=n-1 {
+            let f = primes::factors(i);
+            let m = factors_to_hash_map(&f);
+            hash_map_substract(&mut map, &m);
+        }
+        */
     
-        let temp = factors_sum(&rrr);
-        //println!("D({}) = {:?}", n, temp);
+        let d = factors_hash_map_sum(&map);
+        //println!("D({}) = {:?}", n, d);
 
-        s = (s + temp) % 1_000_000_007_u64;
+        s = (s + d) % 1_000_000_007_u64;
         println!("S({}) = {}", n, s);
     }    
+
+    //let map = comb_factors_hash_map(5);
+    //println!("{:?}", map);
 }
 
 fn factors_sum(v: &Vec<u64>) -> u64 {
@@ -79,10 +139,10 @@ fn factors_sum(v: &Vec<u64>) -> u64 {
 
 fn big_pow(a:u64, b:u64) -> BigUint {
     let mut prod = BigUint::from(1 as u64);
-    for _i in 0..b {
+    for _i in 0..b { //slowly
         prod *= BigUint::from(a as u64);
     }
-    prod
+    return prod;
 }
 
 
@@ -152,6 +212,51 @@ fn comb_factors_hash_map(m:u64, n:u64) -> HashMap<u64, u64> {
 }
 */
 
+
+fn factors_hash_map_sum(map: &HashMap<u64, u64>) -> u64 {
+    let mut prod = BigUint::from(1_u64);
+    for (&f, count) in map {
+        let t = (big_pow(f, count+1) - BigUint::from(1_u64)) / (BigUint::from(f-1));
+        //print!("({} ^ {}) ", p, c);
+        prod = prod * t;// % 1_000_000_007_u64;
+    }
+    //println!("");
+    let prod = prod % 1_000_000_007_u64;
+    prod.to_string().parse::<u64>().unwrap()
+}
+
+fn comb_factors_hash_map(x:u64) -> HashMap<u64, u64> {
+    let mut map = HashMap::new();
+
+    let mut count = x as i64 - 1;
+    for n in (2..=x).rev() {
+        
+        //let f = primes::factors(n);
+        //let a = factors_to_hash_map(&f);
+        let a = &FACTORS[n as usize];
+        if count >= 0 {
+            hash_map_add_count(&mut map, &a, count as u64);
+            /*
+            for i in 0..count {
+                hash_map_add(&mut map, &a);
+            }
+            */
+            //println!("n={} add {} {:?}",n, count, map);
+        }
+        else {
+            hash_map_substract_count(&mut map, &a, count.abs() as u64);
+            /*
+            for i in 0..count.abs() {
+                hash_map_substract(&mut map, &a);
+            }
+            */
+            //println!("n={} substract {} {:?}", n, count, map);
+        }
+        count -= 2;
+    } 
+    map
+}
+
 fn factors_to_hash_map(factors:&Vec<u64>) -> HashMap<u64, u64> {
     let mut map = HashMap::new();
     for f in factors {
@@ -167,3 +272,60 @@ fn factors_to_hash_map(factors:&Vec<u64>) -> HashMap<u64, u64> {
     }
     map
 }
+
+
+
+fn hash_map_add(map:&mut HashMap<u64, u64>, a:&HashMap<u64, u64>) {
+    for (f, count) in a {
+        let v = map.get(f).cloned();
+        match v {
+            Some(x) => {
+                map.insert(*f, x+count);
+            }
+            None => {
+                map.insert(*f, *count);
+            }
+        }
+    }
+} 
+
+fn hash_map_add_count(map:&mut HashMap<u64, u64>, a:&HashMap<u64, u64>, times:u64) {
+    for (f, count) in a {
+        let v = map.get(f).cloned();
+        match v {
+            Some(x) => {
+                map.insert(*f, x+count*times);
+            }
+            None => {
+                map.insert(*f, *count * times);
+            }
+        }
+    }
+} 
+
+fn hash_map_substract(map:&mut HashMap<u64, u64>, a:&HashMap<u64, u64>) {
+    for (f, count) in a {
+        let v = map.get(f).cloned();
+        match v {
+            Some(x) => {
+                map.insert(*f, x-count);
+            }
+            None => {
+            }
+        }
+    }
+} 
+fn hash_map_substract_count(map:&mut HashMap<u64, u64>, a:&HashMap<u64, u64>, times:u64) {
+    for (f, count) in a {
+        let v = map.get(f).cloned();
+        match v {
+            Some(x) => {
+                map.insert(*f, x - count * times);
+            }
+            None => {
+            }
+        }
+    }
+} 
+
+
