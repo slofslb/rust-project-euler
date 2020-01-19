@@ -30,15 +30,18 @@ lazy_static! {
         v
     };
 
-    static ref POWS: HashMap<u64, BigUint> = {
+    static ref POWS: HashMap<u64, Vec<BigUint>> = {
         let mut map = HashMap::new();
-        for i in 2..20 {
+        for i in 2..20000 {
             if primes::is_prime(i) {
+                let mut v = vec![];
+                v.push(BigUint::from(i as u64));
                 let mut prod = BigUint::from(i as u64);
-                for j in 2..20 {
-                    prod = prod * BigUint::from(i as u64);
-                    map.insert(i*100000 + j, prod.clone());
+                for j in 0..15 {
+                    prod = &prod * &prod;
+                    v.push(prod.clone());
                 }
+                map.insert(i, v);
             }
         }
         map
@@ -46,7 +49,7 @@ lazy_static! {
 }
 
 fn main() {
-
+    println!("{:?}", POWS.get(&2));
 
 
     let mut fact = vec![BigUint::from(1 as u64); 101];
@@ -94,7 +97,7 @@ fn main() {
 
     let mut map = HashMap::new();
     let mut s = 1;
-    for n in 2..=10000 {
+    for n in 2..=20000 {
         /*
         let f = primes::factors(n);
         let factor_n = factors_to_hash_map(&f);
@@ -121,7 +124,9 @@ fn main() {
         //println!("D({}) = {:?}", n, d);
 
         s = (s + d) % 1_000_000_007_u64;
-        println!("S({}) = {}", n, s);
+        if n % 10 == 0 {
+            println!("S({}) = {}", n, s);
+        }
     }    
 
     //let map = comb_factors_hash_map(5);
@@ -147,11 +152,26 @@ fn factors_sum(v: &Vec<u64>) -> u64 {
 }
 
 fn big_pow(a:u64, b:u64) -> BigUint {
+    let bin = format!("{:b}", b);
+    let mut prod = BigUint::from(1 as u64);
+    //let mut p = BigUint::from(a as u64);
+    let pp = POWS.get(&a).unwrap();
+    let mut j = 0;
+    for i in bin.chars().rev() {
+        if i == '1' {
+            prod *= &pp[j];
+        }
+        j += 1;
+        //p = &p * &p;
+    }
+    prod
+    /*
     let mut prod = BigUint::from(1 as u64);
     for _i in 0..b { //slowly
         prod *= BigUint::from(a as u64);
     }
     return prod;
+    */
 }
 
 
@@ -225,10 +245,7 @@ fn comb_factors_hash_map(m:u64, n:u64) -> HashMap<u64, u64> {
 fn factors_hash_map_sum(map: &HashMap<u64, u64>) -> u64 {
     let mut prod = BigUint::from(1_u64);
     for (&f, count) in map {
-        let t1 = pow(BigUint::from(f), *count as usize + 1);
-        let t = (t1 - BigUint::from(1_u64)) / (BigUint::from(f-1));
-
-//        let t = (big_pow(f, count+1) - BigUint::from(1_u64)) / (BigUint::from(f-1));
+        let t = (big_pow(f, count+1) - BigUint::from(1_u64)) / (BigUint::from(f-1));
         //print!("({} ^ {}) ", p, c);
         prod = prod * t;// % 1_000_000_007_u64;
     }
