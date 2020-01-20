@@ -95,6 +95,9 @@ fn main() {
     let temp = factors_sum(&rrr);
     println!("{:?}", temp);
 
+    let mut cache_pow = vec![0_u64; 20000];
+    let mut cache_value = vec![BigUint::from(1_u64); 20000];
+
     let mut map = HashMap::new();
     let mut s = 1;
     for n in 2..=20000 {
@@ -119,18 +122,26 @@ fn main() {
         }
         */
     
-        let d = factors_hash_map_sum(&map);
-        //println!("{:?}", &map);
+        //let d = factors_hash_map_sum(&map);
+        let d = factors_hash_map_sum(&map, &mut cache_pow, &mut cache_value);
         //println!("D({}) = {:?}", n, d);
-
+        
         s = (s + d) % 1_000_000_007_u64;
-        if n % 10 == 0 {
+        if n == 10 {
+            assert_eq!(s, 141740594713218418 % 1000000007_u64);
+        }
+        if n == 100 {
+            assert_eq!(s, 332792866_u64);
+        }
+        if n % 100 == 0 {
+            println!("{:?}", &map);
             println!("S({}) = {}", n, s);
         }
     }    
 
     //let map = comb_factors_hash_map(5);
     //println!("{:?}", map);
+
 }
 
 fn factors_sum(v: &Vec<u64>) -> u64 {
@@ -242,7 +253,7 @@ fn comb_factors_hash_map(m:u64, n:u64) -> HashMap<u64, u64> {
 */
 
 
-fn factors_hash_map_sum(map: &HashMap<u64, u64>) -> u64 {
+fn factors_hash_map_sum2(map: &HashMap<u64, u64>) -> u64 {
     let mut prod = BigUint::from(1_u64);
     for (&f, count) in map {
         let t = (big_pow(f, count+1) - BigUint::from(1_u64)) / (BigUint::from(f-1));
@@ -252,6 +263,47 @@ fn factors_hash_map_sum(map: &HashMap<u64, u64>) -> u64 {
     //println!("");
     let prod = prod % 1_000_000_007_u64;
     prod.to_string().parse::<u64>().unwrap()
+}
+
+fn factors_hash_map_sum(map: &HashMap<u64, u64>, cache_pow:&mut Vec<u64>, cache_value:&mut Vec<BigUint>) -> u64 {
+    let mut prod = BigUint::from(1_u64);
+    for (&f, count) in map {
+        let p = cache_pow[f as usize];
+        let mut new_v = cache_value[f as usize].clone();
+        //println!("{} {} {:?}", f, p, new_v.to_string() );
+        if count > &p {
+            /*
+            for i in 0..count - p {
+                new_v = new_v * BigUint::from(f);
+            }
+            */
+            new_v = new_v * big_pow(f, count-p);
+        }
+        else if count < &p {
+            /*
+            for i in 0..p - count {
+                new_v = new_v / BigUint::from(f);
+            } 
+            */  
+            new_v = new_v / big_pow(f, p-count);
+        }
+        else {
+
+        }
+        //println!("f:{} count:{} new_v:{:?}", f, count, new_v.to_string() );
+        cache_pow[f as usize] = *count;
+        cache_value[f as usize] = new_v.clone();
+
+        let t = (new_v * BigUint::from(f) - BigUint::from(1_u64)) / (BigUint::from(f-1));
+
+//        let t = (big_pow(f, count+1) - BigUint::from(1_u64)) / (BigUint::from(f-1));
+        //print!("({} ^ {}) ", p, c);
+        prod = prod * t;// % 1_000_000_007_u64;
+    }
+    //println!("");
+    let prod = prod % 1_000_000_007_u64;
+    prod.to_string().parse::<u64>().unwrap()
+
 }
 
 fn comb_factors_hash_map(x:u64) -> HashMap<u64, u64> {
