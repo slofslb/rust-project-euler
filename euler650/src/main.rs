@@ -37,7 +37,7 @@ lazy_static! {
                 let mut v = vec![];
                 v.push(BigUint::from(i as u64));
                 let mut prod = BigUint::from(i as u64);
-                for j in 0..15 {
+                for j in 0..7 {
                     prod = &prod * &prod;
                     v.push(prod.clone());
                 }
@@ -121,9 +121,10 @@ fn main() {
             hash_map_substract(&mut map, &m);
         }
         */
-    
-        //let d = factors_hash_map_sum(&map);
-        let d = factors_hash_map_sum(&map, &mut cache_pow, &mut cache_value);
+        
+        //println!("{:?}", &map);
+        let d = factors_hash_map_sum2(&map);
+        //let d = factors_hash_map_sum(&map, &mut cache_pow, &mut cache_value);
         //println!("D({}) = {:?}", n, d);
         
         s = (s + d) % 1_000_000_007_u64;
@@ -134,14 +135,30 @@ fn main() {
             assert_eq!(s, 332792866_u64);
         }
         if n % 100 == 0 {
-            println!("{:?}", &map);
             println!("S({}) = {}", n, s);
         }
     }    
 
     //let map = comb_factors_hash_map(5);
     //println!("{:?}", map);
+    println!("{}", mod_inv(2,7));
+}
+// 538319652
 
+
+fn mod_inv(a: isize, module: isize) -> isize {
+    let mut mn = (module, a);
+    let mut xy = (0, 1);
+
+    while mn.1 != 0 {
+        xy = (xy.1, xy.0 - (mn.0 / mn.1) * xy.1);
+        mn = (mn.1, mn.0 % mn.1);
+    }
+
+    while xy.0 < 0 {
+        xy.0 += module; 
+    }
+    xy.0
 }
 
 fn factors_sum(v: &Vec<u64>) -> u64 {
@@ -160,6 +177,14 @@ fn factors_sum(v: &Vec<u64>) -> u64 {
     //println!("");
     let prod = prod % 1_000_000_007_u64;
     prod.to_string().parse::<u64>().unwrap()
+}
+
+fn big_pow_mod(a:u64, b:u64) -> u64 {
+    let mut prod = 1;
+    for _i in 0..b { 
+        prod = prod * a % 1_000_000_007_u64;
+    }
+    return prod;
 }
 
 fn big_pow(a:u64, b:u64) -> BigUint {
@@ -254,15 +279,18 @@ fn comb_factors_hash_map(m:u64, n:u64) -> HashMap<u64, u64> {
 
 
 fn factors_hash_map_sum2(map: &HashMap<u64, u64>) -> u64 {
-    let mut prod = BigUint::from(1_u64);
+    let mut prod = 1;
     for (&f, count) in map {
-        let t = (big_pow(f, count+1) - BigUint::from(1_u64)) / (BigUint::from(f-1));
-        //print!("({} ^ {}) ", p, c);
-        prod = prod * t;// % 1_000_000_007_u64;
+        if *count > 0 {
+            let mut temp = big_pow_mod(f, count+1) - 1;
+            let inv = mod_inv(f as isize - 1, 1_000_000_007) as u64;
+            //println!("inv:{}", inv);
+            temp = temp * inv % 1_000_000_007_u64;
+            prod = prod * temp  % 1_000_000_007_u64;
+            //println!("f:{} count+1:{} prod: {}", f, count+1, prod);
+        }
     }
-    //println!("");
-    let prod = prod % 1_000_000_007_u64;
-    prod.to_string().parse::<u64>().unwrap()
+    prod
 }
 
 fn factors_hash_map_sum(map: &HashMap<u64, u64>, cache_pow:&mut Vec<u64>, cache_value:&mut Vec<BigUint>) -> u64 {
