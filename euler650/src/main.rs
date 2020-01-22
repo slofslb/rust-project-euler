@@ -9,16 +9,6 @@ const MODULUS:u64 = 1_000_000_007_u64;
 #[macro_use]
 extern crate lazy_static;
 lazy_static! {
-    static ref FACTORS: Vec<HashMap<u64,u64>> = {
-        let mut factors_all = vec![HashMap::new()];
-        for i in 1..=20000 {
-            let f = primes::factors(i);
-            let a = factors_to_hash_map(&f);
-            factors_all.push(a);
-        }
-        factors_all
-    };
-
     static ref FF: Vec<HashMap<u64,u64>> = {
         let mut v = vec![HashMap::new()];
         for i in 1..=20000 {
@@ -80,22 +70,18 @@ fn main() {
     let mut cache_pow = vec![0_u64; 20000];
     let mut cache_value = vec![BigUint::from(1_u64); 20000];
 
+
+    let mut factorial_map = HashMap::new();
+
     let mut map = HashMap::new();
     let mut s = 1;
     for n in 2..=20000 {
-        /*
         let f = primes::factors(n);
         let factor_n = factors_to_hash_map(&f);
-        */
-        let factor_n = &FACTORS[n as usize];
-        hash_map_add_count(&mut map, &factor_n, n-1);
-        /*
-        for i in 0..n-1 {
-            hash_map_add(&mut map, &factor_n);
-        }
-        */
-        let m = &FF[n as usize - 1];
-        hash_map_substract(&mut map, &m);
+        hash_map_add_count(&mut map, &factor_n, n);
+        
+        hash_map_add(&mut factorial_map, &factor_n);
+        hash_map_substract(&mut map, &factorial_map);
         /*
         for i in 2..=n-1 {
             let f = primes::factors(i);
@@ -283,38 +269,6 @@ fn factors_hash_map_sum(map: &HashMap<u64, u64>, cache_pow:&mut Vec<u64>, cache_
     let prod = prod % 1_000_000_007_u64;
     prod.to_string().parse::<u64>().unwrap()
 
-}
-
-fn comb_factors_hash_map(x:u64) -> HashMap<u64, u64> {
-    let mut map = HashMap::new();
-
-    let mut count = x as i64 - 1;
-    for n in (2..=x).rev() {
-        
-        //let f = primes::factors(n);
-        //let a = factors_to_hash_map(&f);
-        let a = &FACTORS[n as usize];
-        if count >= 0 {
-            hash_map_add_count(&mut map, &a, count as u64);
-            /*
-            for i in 0..count {
-                hash_map_add(&mut map, &a);
-            }
-            */
-            //println!("n={} add {} {:?}",n, count, map);
-        }
-        else {
-            hash_map_substract_count(&mut map, &a, count.abs() as u64);
-            /*
-            for i in 0..count.abs() {
-                hash_map_substract(&mut map, &a);
-            }
-            */
-            //println!("n={} substract {} {:?}", n, count, map);
-        }
-        count -= 2;
-    } 
-    map
 }
 
 fn factors_to_hash_map(factors:&Vec<u64>) -> HashMap<u64, u64> {
