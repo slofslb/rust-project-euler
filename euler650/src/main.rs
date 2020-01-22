@@ -29,29 +29,9 @@ lazy_static! {
         //println!("{:?}", v);
         v
     };
-
-    static ref POWS: HashMap<u64, Vec<BigUint>> = {
-        let mut map = HashMap::new();
-        for i in 2..20000 {
-            if primes::is_prime(i) {
-                let mut v = vec![];
-                v.push(BigUint::from(i as u64));
-                let mut prod = BigUint::from(i as u64);
-                for j in 0..7 {
-                    prod = &prod * &prod;
-                    v.push(prod.clone());
-                }
-                map.insert(i, v);
-            }
-        }
-        map
-    };
 }
 
 fn main() {
-    println!("{:?}", POWS.get(&2));
-
-
     let mut fact = vec![BigUint::from(1 as u64); 101];
     let mut a = BigUint::from(1 as u64);
     for n in 2..=100 {
@@ -188,26 +168,11 @@ fn big_pow_mod(a:u64, b:u64) -> u64 {
 }
 
 fn big_pow(a:u64, b:u64) -> BigUint {
-    let bin = format!("{:b}", b);
-    let mut prod = BigUint::from(1 as u64);
-    //let mut p = BigUint::from(a as u64);
-    let pp = POWS.get(&a).unwrap();
-    let mut j = 0;
-    for i in bin.chars().rev() {
-        if i == '1' {
-            prod *= &pp[j];
-        }
-        j += 1;
-        //p = &p * &p;
-    }
-    prod
-    /*
     let mut prod = BigUint::from(1 as u64);
     for _i in 0..b { //slowly
         prod *= BigUint::from(a as u64);
     }
     return prod;
-    */
 }
 
 
@@ -255,28 +220,6 @@ fn comb_factors(m:u64, n:u64) -> Vec<u64> {
 }
 
 use std::collections::HashMap;
-
-/* error
-fn comb_factors_hash_map(m:u64, n:u64) -> HashMap<u64, u64> {
-    let mut map = HashMap::new();
-    let mut lastmap = HashMap::new();
-    for x in 1..n {
-        let mut f = primes::factors(x);
-        lastmap = factors_to_hash_map(&f);
-        factors.append(&mut f);
-        x -= 1;
-    }
-    factors.sort();
-    //println!("{:?}", factors);
-    for i in 2..=n {
-        let f = primes::factors(i);
-        //println!("{} {:?}", n, f);
-        vec_remove(&mut factors, &f);
-    }
-    factors.to_vec()
-}
-*/
-
 
 fn factors_hash_map_sum2(map: &HashMap<u64, u64>) -> u64 {
     let mut prod = 1;
