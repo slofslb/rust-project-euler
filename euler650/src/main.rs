@@ -3,19 +3,20 @@ use std::collections::HashMap;
 const MODULUS: u64 = 1_000_000_007_u64;
 
 fn main() {
-    let mut factorial_map = HashMap::new();
+    let mut factorial_factors = HashMap::new();
     let mut map = HashMap::new();
     let mut s = 1;
     for n in 2..=20000 {
-        let f = primes::factors(n);
-        let factor_n = factors_to_hash_map(&f);
-        hash_map_add_count(&mut map, &factor_n, n);
+        let factor_n = factors_map(n);
+        map_add_count(&mut map, &factor_n, n);
 
-        hash_map_add(&mut factorial_map, &factor_n);
-        hash_map_substract(&mut map, &factorial_map);
+        // 缓存 n! 阶乘的因子
+        map_add(&mut factorial_factors, &factor_n);
+
+        map_substract(&mut map, &factorial_factors);
 
         //println!("{:?}", &map);
-        let d = factors_hash_map_sum(&map);
+        let d = map_sum(&map);
         
         s = (s + d) % MODULUS;
         if n == 10 {
@@ -28,6 +29,8 @@ fn main() {
             println!("D({}) = {:?} \t S({}) = {}", n, d, n, s);
         }
     }
+    println!("{}", s);
+
 }
 // 538319652
 
@@ -62,7 +65,7 @@ fn mod_pow(mut base: u64, mut exp: u64, modulus: u64) -> u64 {
 }
 
 
-fn factors_hash_map_sum(map: &HashMap<u64, u64>) -> u64 {
+fn map_sum(map: &HashMap<u64, u64>) -> u64 {
     let mut prod = 1;
     for (&f, count) in map {
         if *count > 0 {
@@ -77,9 +80,10 @@ fn factors_hash_map_sum(map: &HashMap<u64, u64>) -> u64 {
     prod
 }
 
-fn factors_to_hash_map(factors: &Vec<u64>) -> HashMap<u64, u64> {
+fn factors_map(n:u64) -> HashMap<u64, u64> {
     let mut map = HashMap::new();
-    for f in factors {
+    let all_factors = primes::factors(n);
+    for f in &all_factors {
         let v = map.get(f).cloned(); // 如果不写cloned()，有警告，不理解原因
         match v {
             Some(x) => {
@@ -93,7 +97,7 @@ fn factors_to_hash_map(factors: &Vec<u64>) -> HashMap<u64, u64> {
     map
 }
 
-fn hash_map_add(map: &mut HashMap<u64, u64>, a: &HashMap<u64, u64>) {
+fn map_add(map: &mut HashMap<u64, u64>, a: &HashMap<u64, u64>) {
     for (f, count) in a {
         let v = map.get(f).cloned();
         match v {
@@ -107,7 +111,7 @@ fn hash_map_add(map: &mut HashMap<u64, u64>, a: &HashMap<u64, u64>) {
     }
 }
 
-fn hash_map_add_count(map: &mut HashMap<u64, u64>, a: &HashMap<u64, u64>, times: u64) {
+fn map_add_count(map: &mut HashMap<u64, u64>, a: &HashMap<u64, u64>, times: u64) {
     for (f, count) in a {
         let v = map.get(f).cloned();
         match v {
@@ -121,7 +125,7 @@ fn hash_map_add_count(map: &mut HashMap<u64, u64>, a: &HashMap<u64, u64>, times:
     }
 }
 
-fn hash_map_substract(map: &mut HashMap<u64, u64>, a: &HashMap<u64, u64>) {
+fn map_substract(map: &mut HashMap<u64, u64>, a: &HashMap<u64, u64>) {
     for (f, count) in a {
         let v = map.get(f).cloned();
         match v {
@@ -132,14 +136,4 @@ fn hash_map_substract(map: &mut HashMap<u64, u64>, a: &HashMap<u64, u64>) {
         }
     }
 }
-fn hash_map_substract_count(map: &mut HashMap<u64, u64>, a: &HashMap<u64, u64>, times: u64) {
-    for (f, count) in a {
-        let v = map.get(f).cloned();
-        match v {
-            Some(x) => {
-                map.insert(*f, x - count * times);
-            }
-            None => {}
-        }
-    }
-}
+
