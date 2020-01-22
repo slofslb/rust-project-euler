@@ -4,6 +4,8 @@ use num_bigint::BigUint;
 // use num_traits::pow;
 use num_traits::pow;
 
+const MODULUS:u64 = 1_000_000_007_u64;
+
 #[macro_use]
 extern crate lazy_static;
 lazy_static! {
@@ -152,19 +154,25 @@ fn factors_sum(v: &Vec<u64>) -> u64 {
         let t = (t1 - BigUint::from(1_u64)) / (BigUint::from(p-1));
         //let t = (big_pow(p, c+1) - BigUint::from(1_u64)) / (BigUint::from(p-1));
         //print!("({} ^ {}) ", p, c);
-        prod = (prod * t);// % 1_000_000_007_u64;
+        prod = prod * t;// % 1_000_000_007_u64;
     }
     //println!("");
     let prod = prod % 1_000_000_007_u64;
     prod.to_string().parse::<u64>().unwrap()
 }
 
-fn big_pow_mod(a:u64, b:u64) -> u64 {
-    let mut prod = 1;
-    for _i in 0..b { 
-        prod = prod * a % 1_000_000_007_u64;
+fn mod_pow(mut base: u64, mut exp: u64, modulus: u64) -> u64 {
+    if modulus == 1 { return 0 }
+    let mut result = 1;
+    base = base % modulus;
+    while exp > 0 {
+        if exp % 2 == 1 {
+            result = result * base % modulus;
+        }
+        exp = exp >> 1;
+        base = base * base % modulus
     }
-    return prod;
+    result
 }
 
 fn big_pow(a:u64, b:u64) -> BigUint {
@@ -225,8 +233,8 @@ fn factors_hash_map_sum2(map: &HashMap<u64, u64>) -> u64 {
     let mut prod = 1;
     for (&f, count) in map {
         if *count > 0 {
-            let mut temp = big_pow_mod(f, count+1) - 1;
-            let inv = mod_inv(f as isize - 1, 1_000_000_007) as u64;
+            let mut temp = mod_pow(f, count+1, MODULUS) - 1;
+            let inv = mod_inv(f as isize - 1, MODULUS as isize) as u64;
             //println!("inv:{}", inv);
             temp = temp * inv % 1_000_000_007_u64;
             prod = prod * temp  % 1_000_000_007_u64;
