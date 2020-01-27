@@ -1,4 +1,23 @@
 fn main() {
+    // version 0.1
+    /*
+    let mut count = 0;
+    let mut v: Vec<(usize, usize)> = vec![];
+    for d in 2..=1200 {
+        for n in 1..d {
+            if 2 * n < d && d < 3 * n {
+                let g = num::integer::gcd(n, d);
+                let r = (n / g, d / g);
+                if !v.contains(&r) {
+                    v.push(r);
+                    count += 1;
+                }
+            }
+        }
+    }
+    println!("{}", count);
+    */
+
     let mut exclude_list = vec![vec![]; 12001];
 
     let mut count = 0;
@@ -16,35 +35,8 @@ fn main() {
 }
 // 7295372
 
-/* ver 0.1
-fn main() {
-    let mut count = 0;
-    let mut v:Vec<(usize, usize)> = vec![];
-    for d in 2..=12000 {//12000 {
-        if d % 100 == 0 {
-            //println!("{:?}", v);
-            println!("d={}", d);
-        }
-        for n in 1..d {
-            if 2 * n < d && d < 3 * n {
-                let r = gcd(n, d);
-                if !v.contains(&r) {
-                    v.push(r);
-                    //println!("{:?} ", r);
-                    count += 1;
-                }
-            }
-        }
-    }
-    println!("{}", count);
-}
 
-fn gcd(origin_a:usize, origin_b:usize) -> (usize, usize) {
-    //let g = num::integer::gcd(origin_a, origin_b);
-    let g = gcd2(origin_a, origin_b);
-    (origin_a / g, origin_b / g)
-}
-
+/*
 use std::cmp::{min, max};
 // https://rosettacode.org/wiki/Greatest_common_divisor#Stein.27s_Algorithm
 fn gcd2(a: usize, b: usize) -> usize {
