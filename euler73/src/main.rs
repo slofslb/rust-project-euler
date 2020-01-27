@@ -12,7 +12,6 @@ fn main() {
             }
         }
     }
-    println!("{:?}", exclude_list[12000]);
     println!("{}", count);
 }
 // 7295372
