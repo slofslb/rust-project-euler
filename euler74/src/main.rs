@@ -20,6 +20,7 @@ fn non_repeating_chain(mut n: u64) -> Vec<u64> {
     chain
 }
 
+// 求各位数字的阶乘之和
 fn sum_fac(n: u64) -> u64 {
     // 借鉴第34题，提前计算好0~9的阶乘
     //let fac_0_to_9: Vec<u64> = (0..10).map(|x| factorial(x)).collect();
