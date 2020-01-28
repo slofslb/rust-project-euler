@@ -1,6 +1,7 @@
 fn main() {
     let data = std::fs::read_to_string("poker.txt").expect("打开文件出错");
-    let lines = data.trim().split('\n');
+    let data2 = data.replace("\r\n", "\n");
+    let lines = data2.trim().split('\n');
     let mut count = 0;
     for line in lines {
         let cards: Vec<_> = line.split(' ').collect();
