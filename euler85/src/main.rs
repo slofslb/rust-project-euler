@@ -1,5 +1,5 @@
 fn main() {
-    let mut dist = 2000000;
+    let mut dist = std::i64::MAX;
     for m in 1..100 {
         for n in 1..=m {
             let rects = r(m, n);
