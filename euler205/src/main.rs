@@ -9,7 +9,7 @@ fn main() {
     // 色子和最小为6，最大36
     for dice_sum in 6..=36 {
         let prob1 = count1[dice_sum] as f64 / 6_f64.powf(6.0);
-        // 第2组色子的点数和一定要大于dice_sum
+        // 假设第1组色子扔到6，第2组色子的点数和必须大于6，把这些可能性加起来
         let prob2 = count2[dice_sum + 1..=36].iter().sum::<u64>() as f64 / 4_f64.powf(9.0);
         prob += prob1 * prob2;
     }
