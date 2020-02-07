@@ -11,6 +11,7 @@ fn main() {
     assert_eq!(3315, matrix_sum(&mut cache, &matrix, &mut p));
 
     let mut cache = vec![0; 2_usize.pow(15)];
+    let mut p = vec![];
     let matrix = vec![
         7, 53, 183, 439, 863, 497, 383, 563, 79, 973, 287, 63, 343, 169, 583, 627, 343, 773, 959,
         943, 767, 473, 103, 699, 303, 957, 703, 583, 639, 913, 447, 283, 463, 29, 23, 487, 463,
@@ -30,7 +31,7 @@ fn main() {
 
     // ugly to find the positions!
     let mut p = vec![];
-    for j in 0..15 {
+    for col in 0..15 {
         let mut index = 0;
         let mut mmax = 0;
         for i in 0..15_usize {
@@ -41,10 +42,10 @@ fn main() {
                     println!("no cache");
                     index = i;
                 }
-                if cache[hash] > mmax {
-                    mmax = cache[hash];
+                if matrix[i*15+col] + cache[hash] >= mmax {
+                    mmax = matrix[i*15+col] + cache[hash];
                     index = i;
-                    //println!("{:?} {}", p, cache[hash]);
+                    println!("{:?} {}", p, cache[hash]);
                 }
                 p.pop();
             }
