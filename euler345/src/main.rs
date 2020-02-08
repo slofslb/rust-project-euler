@@ -5,7 +5,7 @@ fn main() {
         287, 63, 343, 169, 583, // row 2
         627, 343, 773, 959, 943, // row 3
         767, 473, 103, 699, 303, // row 4
-        ];
+    ];
     let mut cache = vec![0; 2_usize.pow(5)];
     let mut path = vec![];
     assert_eq!(3315, matrix_sum(&mut cache, &mat, &mut path));
@@ -24,33 +24,64 @@ fn main() {
         450, 476, 712, 914, 838, 669, 875, 299, 823, 329, 699, 815, 559, 813, 459, 522, 788, 168,
         586, 966, 232, 308, 833, 251, 631, 107, 813, 883, 451, 509, 615, 77, 281, 613, 459, 205,
         380, 274, 302, 35, 805,
-        ];
+    ];
+
+    /* 算法一：遗传算法 */
+    let reproduce_num = 7;
+    let mut paths = vec![vec![0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]];
+    let mut max = 0;
+    for _generation in 0..10000 {
+        for _child in 0..reproduce_num * reproduce_num {
+            let path = &paths[rand::random::<usize>() % paths.len()];
+            let path_new = swap(
+                &path,
+                rand::random::<usize>() % 15,
+                rand::random::<usize>() % 15,
+            );
+            if !paths.contains(&path_new) {
+                let ev = eval(&mat, &path_new);
+                if ev > max {
+                    max = ev;
+                    paths.insert(0, path_new);
+                } else {
+                    paths.push(path_new);
+                }
+            }
+        }
+        // 只保留前几个优质的
+        if paths.len() > reproduce_num {
+            for p in (reproduce_num..paths.len()).rev() {
+                paths.remove(p);
+            }
+        }
+    }
+    println!("{} {:?}", max, paths[0]);
+
+    /* 算法二：递归算法 */
     let mut cache = vec![0; 2_usize.pow(15)];
     let mut path = vec![];
     println!("{}", matrix_sum(&mut cache, &mat, &mut path));
-
-    // ugly codes to output the path!
-    let num_cols = 15_usize;
-    let mut path = vec![];
-    for col in 0..num_cols {
-        let mut selected_row = 999;
-        let mut max = 0;
-        for row in 0..num_cols {
-            if !path.contains(&row) {
-                path.push(row);
-                let hash = hash_code(&path);
-                if mat[row * num_cols + col] + cache[hash] > max {
-                    max = mat[row * num_cols + col] + cache[hash];
-                    selected_row = row;
-                }
-                path.pop();
-            }
-        }
-        path.push(selected_row);
-    }
-    println!("path: {:?}", path);
+    matrix_output(&cache, &mat);
 }
 // 13938
+// [5, 14, 7, 4, 3, 11, 10, 2, 13, 0, 1, 9, 12, 6, 8]
+
+fn swap(path: &Vec<usize>, i: usize, j: usize) -> Vec<usize> {
+    let mut path2 = path.clone();
+    path2[i] = path[j];
+    path2[j] = path[i];
+    return path2;
+}
+
+fn eval(mat: &Vec<usize>, path: &Vec<usize>) -> usize {
+    let num_cols = (mat.len() as f64).sqrt() as usize;
+    let mut sum = 0;
+    for (col, row) in path.iter().enumerate() {
+        let index = row * num_cols + col;
+        sum += mat[index];
+    }
+    sum
+}
 
 fn matrix_sum(cache: &mut [usize], mat: &Vec<usize>, path: &mut Vec<usize>) -> usize {
     // 总列数
@@ -88,4 +119,27 @@ fn hash_code(path: &Vec<usize>) -> usize {
         hash += 1 << *element;
     }
     hash
+}
+
+// ugly codes to output the path!
+fn matrix_output(cache: &Vec<usize>, mat: &Vec<usize>) {
+    let num_cols = (mat.len() as f64).sqrt() as usize;
+    let mut path = vec![];
+    for col in 0..num_cols {
+        let mut selected_row = 999;
+        let mut max = 0;
+        for row in 0..num_cols {
+            if !path.contains(&row) {
+                path.push(row);
+                let hash = hash_code(&path);
+                if mat[row * num_cols + col] + cache[hash] > max {
+                    max = mat[row * num_cols + col] + cache[hash];
+                    selected_row = row;
+                }
+                path.pop();
+            }
+        }
+        path.push(selected_row);
+    }
+    println!("path: {:?}", path);
 }
