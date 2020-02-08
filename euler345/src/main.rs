@@ -31,8 +31,8 @@ fn main() {
     let reproduce_num = 7;
     let mut paths = vec![vec![0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]];
     let mut max = 0;
-    for _generation in 0..10000 {
-        for _child in 0..reproduce_num * reproduce_num {
+    for _generation in 0..20000 {
+        for _i in 0..reproduce_num * reproduce_num {
             let path = &paths[rand::random::<usize>() % paths.len()];
             let path_new = swap(
                 &path,
@@ -75,10 +75,10 @@ fn swap(path: &Vec<usize>, i: usize, j: usize) -> Vec<usize> {
 }
 
 fn eval(mat: &Vec<usize>, path: &Vec<usize>) -> usize {
-    let num_cols = (mat.len() as f64).sqrt() as usize;
+    let dim = (mat.len() as f64).sqrt() as usize;
     let mut sum = 0;
     for (col, row) in path.iter().enumerate() {
-        let index = row * num_cols + col;
+        let index = row * dim + col;
         sum += mat[index];
     }
     sum
@@ -115,11 +115,14 @@ fn matrix_sum(cache: &mut [usize], mat: &Vec<usize>, path: &mut Vec<usize>) -> u
 }
 
 fn hash_code(path: &Vec<usize>) -> usize {
+    path.iter().map(|p| 1_usize << p).sum()
+    /* 
     let mut hash = 0;
-    for element in path.iter() {
-        hash += 1 << *element;
+    for p in path {
+        hash += 1_usize << p;
     }
     hash
+    */
 }
 
 // ugly codes to output the path!
@@ -144,3 +147,48 @@ fn matrix_output(cache: &Vec<usize>, mat: &Vec<usize>) {
     }
     println!("path: {:?}", path);
 }
+
+
+/* version 0.1 递归算法，但运行非常慢
+fn main() {
+    let mat = vec![
+        7, 53, 183, 439, 863, // row 0
+        497, 383, 563, 79, 973, // row 1
+        287, 63, 343, 169, 583, // row 2
+        627, 343, 773, 959, 943, // row 3
+        767, 473, 103, 699, 303, // row 4
+    ];
+    println!("{}", matrix_sum(&mat));
+}
+
+fn matrix_sum(mat: &Vec<usize>) -> usize {
+    if mat.len() == 1 {
+        return mat[0];
+    }
+
+    let dim = (mat.len() as f64).sqrt() as usize;
+    let mut max_sum = 0;
+    for row in 0..dim {
+        let m2 = residual_matrix(&mat, row, 0);
+        let temp = mat[row*dim] + matrix_sum(&m2);
+        if temp > max_sum {
+            max_sum = temp;
+        }
+    }
+    max_sum
+}
+
+// 剩余矩阵
+fn residual_matrix(mat: &Vec<usize>, row:usize, col:usize) -> Vec<usize> {
+    let dim = (mat.len() as f64).sqrt() as usize;
+    let mut m2 = vec![];
+    for index in 0..mat.len() {
+        let r = index / dim;
+        let c = index % dim;
+        if row != r && col != c {
+            m2.push(mat[index]);
+        }
+    }
+    m2
+}
+*/
