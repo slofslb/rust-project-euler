@@ -7,7 +7,7 @@ fn main() {
         }
     }
     // 另一种写法
-    let n = (2..).filter(|x| has_four_factors_uniq(*x)).next().unwrap();
+    let n = (2..).find(|x| has_four_factors_uniq(*x)).unwrap();
     println!("{:?}", n);
 }
 // 134043
