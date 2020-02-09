@@ -1,7 +1,7 @@
 fn main() {
     let data = std::fs::read_to_string("names.txt").expect("读文件失败");
     let data2 = remove_quote(&data);
-    let mut names: Vec<&str> = data2.split(",").collect();
+    let mut names: Vec<&str> = data2.split(',').collect();
 
     names.sort();
 
