@@ -26,7 +26,7 @@ fn main() {
         380, 274, 302, 35, 805,
     ];
 
-    // 算法一：遗传算法 
+    // 算法一：遗传算法
     // 绝大部分时候能够得到正确结果
     let reproduce_num = 7;
     let mut paths = vec![vec![0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]];
@@ -58,7 +58,7 @@ fn main() {
     }
     println!("{} {:?}", max, paths[0]);
 
-    // 算法二：递归算法 
+    // 算法二：递归算法
     let mut cache = vec![0; 2_usize.pow(15)];
     let mut path = vec![];
     println!("{}", matrix_sum(&mut cache, &mat, &mut path));
@@ -116,7 +116,7 @@ fn matrix_sum(cache: &mut [usize], mat: &[usize], path: &mut Vec<usize>) -> usiz
 
 fn hash_code(path: &[usize]) -> usize {
     path.iter().map(|p| 1_usize << p).sum()
-    /* 
+    /*
     let mut hash = 0;
     for p in path {
         hash += 1_usize << p;
@@ -147,7 +147,6 @@ fn matrix_output(cache: &[usize], mat: &[usize]) {
     }
     println!("path: {:?}", path);
 }
-
 
 /* version 0.1 递归算法，但运行非常慢
 fn main() {
