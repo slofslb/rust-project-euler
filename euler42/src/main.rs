@@ -12,7 +12,7 @@ fn main() {
     let data = std::fs::read_to_string("words.txt").expect("读文件失败");
     // 删除引号
     let data2: String = data.chars().filter(|c| *c != '"').collect();
-    let names: Vec<&str> = data2.split(",").collect();
+    let names: Vec<&str> = data2.split(',').collect();
 
     let mut count = 0;
     for name in names {
