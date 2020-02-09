@@ -55,7 +55,7 @@ fn eval(hand: &[&str]) -> usize {
         return 99000 + highest_value;
     } else if kind_four > 0 {
         return 90000 + kind_four;
-    } else if kind_three > 0 && pair.len() > 0 {
+    } else if kind_three > 0 && !pair.is_empty() {
         return 80000 + kind_three * 100 + pair[0];
     } else if flush {
         return 70000 + highest_value;
