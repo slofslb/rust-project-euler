@@ -3,7 +3,7 @@ fn main() {
     let data = std::fs::read_to_string("triangle.txt").expect("读文件失败");
     let data2 = data.trim().replace("\r\n", " ").replace("\n", " ");
     let w: Vec<usize> = data2
-        .split(" ")
+        .split(' ')
         .map(|x| x.parse::<usize>().unwrap())
         .collect();
 
@@ -12,7 +12,7 @@ fn main() {
 }
 // 7273
 
-fn compute_path_weight(w: &Vec<usize>) -> Vec<usize> {
+fn compute_path_weight(w: &[usize]) -> Vec<usize> {
     let mut path: Vec<usize> = vec![0; w.len()];
     let max_row: usize = row(w.len() - 1);
     for i in (0..w.len()).rev() { // 从底层向上计算
@@ -25,7 +25,7 @@ fn compute_path_weight(w: &Vec<usize>) -> Vec<usize> {
             path[i] = if left > right { left } else { right };
         }
     }
-    return path;
+    path
 }
 
 // 节点的行号，顶层的行号为1
@@ -37,5 +37,5 @@ fn row(n: usize) -> usize {
             return r;
         }
     }
-    return 0;
+    0
 }
