@@ -18,17 +18,19 @@ fn main() {
             * digits[10]
             * digits[100]
             * digits[1000]
-            * digits[10000]
-            * digits[100000]
-            * digits[1000000]
+            * digits[10_000]
+            * digits[100_000]
+            * digits[1_000_000]
     );
 
     // 用map()和fold()的写法
     let d: Vec<usize> = (0..=6).map(|x| digits[10_usize.pow(x)]).collect();
     println!("{:?}", d);
 
+    // rust里提供了product()方法 
     let p: usize = (0..=6)
         .map(|x| digits[10_usize.pow(x)])
-        .fold(1, |x, a| x * a);
+        .product();
+        //.fold(1, |x, a| x * a);
     println!("{}", p);
 }
