@@ -20,7 +20,8 @@ fn main() {
     }
 
     // 还可以这样写
-    print!("{}", (100..).step_by(2).filter(|&x| can_divide_1_to_20(x)).next().unwrap());
+    print!("{}", (100..).step_by(2).find(|&x| can_divide_1_to_20(x)).unwrap());
+    //print!("{}", (100..).step_by(2).filter(|&x| can_divide_1_to_20(x)).next().unwrap());
 }
 // 232792560
 
