@@ -20,7 +20,7 @@ fn main() {
 // 左截素数
 fn is_trunc_left_prime(n: u64) -> bool {
     let mut s = n.to_string();
-    while s.len() > 0 {
+    while !s.is_empty() {
         let p = s.parse::<u64>().unwrap();
         if !primes::is_prime(p) {
             return false;
