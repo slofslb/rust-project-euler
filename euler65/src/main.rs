@@ -13,8 +13,7 @@ fn main() {
     }
     let temp = b.clone();
     a = &a + BigUint::from(2_u64) * &temp;
-    b = temp.clone();
-    println!("{:?} {:?}", a.to_string(), b.to_string());
+    println!("{:?} {:?}", a.to_string(), temp.to_string());
     let sum = a
         .to_string()
         .chars()
