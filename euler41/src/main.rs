@@ -27,23 +27,18 @@ fn next_perm_desc(v: &mut [u64]) -> bool {
         j -= 1;
     }
 
-    swap(v, i, j);
+    v.swap(i, j);
 
     i += 1;
     j = v.len() - 1;
     while i < j {
-        swap(v, i, j);
+        v.swap(i, j);
         i += 1;
         j -= 1;
     }
     true
 }
 
-fn swap(v: &mut [u64], i: usize, j: usize) {
-    let temp = v[i];
-    v[i] = v[j];
-    v[j] = temp;
-}
 /*
 // 借鉴第24题，再改为依赖第三方的排列组合库来实现
 use permutohedron::heap_recursive;
