@@ -21,7 +21,7 @@ fn is_divisibility(num: u64) -> bool {
         if sub3 % primes[i] != 0 {
             return false;
         }
-        n = n / 10;
+        n /= 10;
     }
     true
 }
@@ -40,20 +40,14 @@ fn next_perm(v: &mut [u64]) -> bool {
         j -= 1;
     }
 
-    swap(v, i, j);
+    v.swap(i, j);
 
     i += 1;
     j = v.len() - 1;
     while i < j {
-        swap(v, i, j);
+        v.swap(i, j);
         i += 1;
         j -= 1;
     }
     true
-}
-
-fn swap(v: &mut [u64], i: usize, j: usize) {
-    let temp = v[i];
-    v[i] = v[j];
-    v[j] = temp;
 }
