@@ -53,12 +53,12 @@ fn mod_inv(a: isize, module: isize) -> isize {
 // https://rob.co.bb/posts/2019-02-10-modular-exponentiation-in-rust/
 fn mod_pow(mut base: u64, mut exp: u64, modulus: u64) -> u64 {
     let mut result = 1;
-    base = base % modulus;
+    base %= modulus;
     while exp > 0 {
         if exp % 2 == 1 {
             result = result * base % modulus;
         }
-        exp = exp >> 1;
+        exp >>= 1;
         base = base * base % modulus
     }
     result
@@ -128,12 +128,17 @@ fn map_add_count(map: &mut HashMap<u64, u64>, a: &HashMap<u64, u64>, times: u64)
 fn map_substract(map: &mut HashMap<u64, u64>, a: &HashMap<u64, u64>) {
     for (f, count) in a {
         let v = map.get(f).cloned();
+        if let Some(x) = v {
+            map.insert(*f, x - count);
+        }
+        /*
         match v {
             Some(x) => {
                 map.insert(*f, x - count);
             }
             None => {}
         }
+        */
     }
 }
 
