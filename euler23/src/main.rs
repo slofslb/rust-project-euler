@@ -27,13 +27,13 @@ fn main() {
 fn can_divide(abundant_numbers: &[bool], num: u32) -> bool {
     for x in 1..=28123 {
         let y = num - x;
-        if y <= 0 {break;} 
+        if y == 0 {break;} 
         if abundant_numbers[x as usize] && abundant_numbers[y as usize] {
             // println!("can_divide: {} = {} + {}", num, x, y);
             return true;
         }
     }
-    return false;
+    false
 }
 
 
