@@ -67,14 +67,14 @@ fn main() {
 // 13938
 // [5, 14, 7, 4, 3, 11, 10, 2, 13, 0, 1, 9, 12, 6, 8]
 
-fn swap(path: &Vec<usize>, i: usize, j: usize) -> Vec<usize> {
-    let mut path2 = path.clone();
+fn swap(path: &[usize], i: usize, j: usize) -> Vec<usize> {
+    let mut path2 = path.to_owned();
     path2[i] = path[j];
     path2[j] = path[i];
-    return path2;
+    path2
 }
 
-fn eval(mat: &Vec<usize>, path: &Vec<usize>) -> usize {
+fn eval(mat: &[usize], path: &[usize]) -> usize {
     let dim = (mat.len() as f64).sqrt() as usize;
     let mut sum = 0;
     for (col, row) in path.iter().enumerate() {
@@ -84,7 +84,7 @@ fn eval(mat: &Vec<usize>, path: &Vec<usize>) -> usize {
     sum
 }
 
-fn matrix_sum(cache: &mut [usize], mat: &Vec<usize>, path: &mut Vec<usize>) -> usize {
+fn matrix_sum(cache: &mut [usize], mat: &[usize], path: &mut Vec<usize>) -> usize {
     // 总列数
     let num_cols = (mat.len() as f64).sqrt() as usize;
     // 准备填充的列号
@@ -114,7 +114,7 @@ fn matrix_sum(cache: &mut [usize], mat: &Vec<usize>, path: &mut Vec<usize>) -> u
     max_sum
 }
 
-fn hash_code(path: &Vec<usize>) -> usize {
+fn hash_code(path: &[usize]) -> usize {
     path.iter().map(|p| 1_usize << p).sum()
     /* 
     let mut hash = 0;
@@ -126,7 +126,7 @@ fn hash_code(path: &Vec<usize>) -> usize {
 }
 
 // ugly codes to output the path!
-fn matrix_output(cache: &Vec<usize>, mat: &Vec<usize>) {
+fn matrix_output(cache: &[usize], mat: &[usize]) {
     let num_cols = (mat.len() as f64).sqrt() as usize;
     let mut path = vec![];
     for col in 0..num_cols {
