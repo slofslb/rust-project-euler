@@ -1,6 +1,6 @@
 fn main() {
     let mut v = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-    for i in 2..=1_000_000 {
+    for _i in 2..=1_000_000 {
         next_perm(&mut v);
         //println!("{} {:?}", i, v);
     }
@@ -22,21 +22,15 @@ fn next_perm(v: &mut [u32]) {
         j -= 1;
     }
 
-    swap(v, i, j);
+    v.swap(i, j);
 
     i += 1;
     j = v.len() - 1;
     while i < j {
-        swap(v, i, j);
+        v.swap(i, j);
         i += 1;
         j -= 1;
     }
-}
-
-fn swap(v: &mut [u32], i: usize, j: usize) {
-    let temp = v[i];
-    v[i] = v[j];
-    v[j] = temp;
 }
 
 /*
