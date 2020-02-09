@@ -3,7 +3,8 @@ fn main() {
     // for i in 0..=9 {
     //     fac[i] = factorial(i as u32);
     // }
-    let fac: Vec<u32> = (0..10).map(|x| factorial(x)).collect();
+    let fac: Vec<u32> = (0..10).map(factorial).collect();
+    //let fac: Vec<u32> = (0..10).map(|x| factorial(x)).collect();
     println!("{:?}", fac);
 
     let mut sum = 0;
