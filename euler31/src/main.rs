@@ -8,12 +8,12 @@ fn ways(money: isize, maxcoin: usize) -> usize {
     if maxcoin == 7 {
         return 1;
     }
-    for i in maxcoin..8 {
-        if money - coins[i] == 0 {
+    for (i, coin) in coins.iter().enumerate().skip(maxcoin) {
+        if money - coin == 0 {
             sum += 1;
         }
-        if money - coins[i] > 0 {
-            sum += ways(money - coins[i], i);
+        if money - coin > 0 {
+            sum += ways(money - coin, i);
         }
     }
     sum
