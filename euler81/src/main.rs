@@ -6,12 +6,12 @@ fn main() {
         .split(',')
         .map(|x| x.parse::<usize>().unwrap())
         .collect();
-    //println!("{:?}", w); 
+    //println!("{:?}", w);
     let min_path = compute_min_path(&w);
     println!("{}", min_path[0]);
 }
 
-fn compute_min_path(w: &Vec<usize>) -> Vec<usize> {
+fn compute_min_path(w: &[usize]) -> Vec<usize> {
     let mut path: Vec<usize> = vec![0; w.len()];
     for &node in node_by_layer().iter().rev() {
         let r = node / 80;
@@ -23,7 +23,7 @@ fn compute_min_path(w: &Vec<usize>) -> Vec<usize> {
             let down = if r >= 79 {
                 std::usize::MAX
             } else {
-            // 一维数组存放，下一行的节点编号就是node + 80
+                // 一维数组存放，下一行的节点编号就是node + 80
                 w[node] + path[node + 80]
             };
             let right = if c >= 79 {
@@ -34,7 +34,7 @@ fn compute_min_path(w: &Vec<usize>) -> Vec<usize> {
             path[node] = if down < right { down } else { right };
         }
     }
-    return path;
+    path
 }
 
 // 按斜线这种顺序存储节点
