@@ -54,7 +54,7 @@ fn english_number(n: usize) -> String {
     if n == 1000 {
         return "one thousand".to_string();
     }
-    return "unknown".to_string();
+    "unknown".to_string()
 }
 
 fn remove_space(s: &str) -> String {
