@@ -2,7 +2,7 @@ extern crate num_bigint;
 use num_bigint::BigUint;
 
 fn main() {
-    let s = [
+    let large_numbers = vec![
         b"37107287533902102798797998220837590246510135740250",
         b"46376937677490009712648124896970078050417018260538",
         b"74324986199524741059474233309513058123726617309629",
@@ -108,8 +108,8 @@ fn main() {
     // println!("demo a big number: {}", BigUint::parse_bytes(b"3402392834293402440250", 10).unwrap());
 
     let mut sum = BigUint::from(0 as u64);
-    for i in 0..s.len() {
-        sum += BigUint::parse_bytes(s[i], 10).unwrap();
+    for s in large_numbers {
+        sum += BigUint::parse_bytes(s, 10).unwrap();
     }
     let full_str = sum.to_str_radix(10);
     println!("take 10 digits: {}", &full_str[..10]);
