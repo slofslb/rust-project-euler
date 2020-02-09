@@ -18,7 +18,7 @@ fn path(v: &mut Vec<u64>, m: usize, n: usize) -> u64 {
     }
     v[m * 100 + n] = sum; // 加入缓存中
     println!("({},{}) {}", m, n, sum);
-    return sum;
+    sum
 }
 
 fn path_slow(m: usize, n: usize) -> u64 {
@@ -29,5 +29,5 @@ fn path_slow(m: usize, n: usize) -> u64 {
     for j in 0..=n {
         sum += path_slow(m - 1, j);
     }
-    return sum;
+    sum
 }
