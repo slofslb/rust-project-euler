@@ -100,6 +100,8 @@ fn card_value(card: &str) -> usize {
         .unwrap()
 }
 
+// 统计各种牌点出现的次数，例如：[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 1, 1, 0, 0]
+// 表示五张牌里有3张10，1张J(11点)，1张Q(12点)
 fn cards_stat(hand: &[&str]) -> Vec<usize> {
     // 对不同的牌计数
     let mut count_cards = vec![0; 15]; // 最大A，值是14
@@ -128,7 +130,7 @@ fn suit_type(hand: &[&str]) -> SuitType {
 
     //let stat :Vec<usize> = (0..=14).map(|v| count_cards(hand, v)).collect();
     let stat = cards_stat(hand);
-    //println!("{:?}", stat);
+    println!("{:?}", stat);
 
     if let Some(a) = stat.iter().position(|&x| x == 4) {
         return SuitType::KindFour(a);
