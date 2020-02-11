@@ -68,8 +68,7 @@ fn eval(hand: &[&str]) -> usize {
             max_remain: b,
         } => 100 * a + b,
         SuitType::HighCard(a) => a,
-        // TODO:
-        // 实际上程序还有隐藏的BUG，当HighCard时，仅保存最大的牌点不行
+        // TODO: 实际上程序还有隐藏的BUG，当HighCard时，仅保存最大的牌点不行
         // 例如 ：A9753和A9752，仅比较最大的牌是不行的，还得依次比较最大的牌点才能出来结果
     }
 }
