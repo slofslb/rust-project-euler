@@ -8,7 +8,7 @@ enum SuitType {
     },
     //两对
     TwoPairs {
-        high_pair: usize,  //最大的一对
+        high_pair: usize,  // 最大的一对
         low_pair: usize,   // 最小的一对
         max_remain: usize, // 除了两对之外，剩下最大的牌点
     },
@@ -21,7 +21,7 @@ enum SuitType {
         value_pair: usize,
     },
     KindFour(usize),      // 四条
-    StraightFlush(usize), //同花顺
+    StraightFlush(usize), // 同花顺
     RoyalFlush,           // 同花大顺
 }
 
@@ -68,6 +68,9 @@ fn eval(hand: &[&str]) -> usize {
             max_remain: b,
         } => 100 * a + b,
         SuitType::HighCard(a) => a,
+        // TODO:
+        // 实际上程序还有隐藏的BUG，当HighCard时，仅保存最大的牌点不行
+        // 例如 ：A9753和A9752，仅比较最大的牌是不行的，还得依次比较最大的牌点才能出来结果
     }
 }
 
@@ -130,7 +133,7 @@ fn suit_type(hand: &[&str]) -> SuitType {
 
     //let stat :Vec<usize> = (0..=14).map(|v| count_cards(hand, v)).collect();
     let stat = cards_stat(hand);
-    println!("{:?}", stat);
+    
 
     if let Some(a) = stat.iter().position(|&x| x == 4) {
         return SuitType::KindFour(a);
