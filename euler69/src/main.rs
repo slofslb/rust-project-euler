@@ -28,6 +28,19 @@ fn main() {
         println!("prime={} {}", p, prod);
     }
     println!("{}", prod);
+
+    // 另一种函数式编程的写法，不易读
+    let mut some_primes = (2..).filter(|&x| primes::is_prime(x));
+    let mut prod = 1;
+    let some_products = std::iter::repeat_with(|| {
+        let tmp = prod;
+        prod *= some_primes.next().unwrap();
+        tmp
+    })
+    .take_while(|&x| x < 1_000_000)
+    .collect::<Vec<_>>();
+    println!("{:?}", some_products);
+    println!("{:?}", some_products.last().unwrap());
 }
 
 fn gcd(a: u64, b: u64) -> u64 {
