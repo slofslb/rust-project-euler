@@ -41,6 +41,14 @@ fn main() {
     .collect::<Vec<_>>();
     println!("{:?}", some_products);
     println!("{:?}", some_products.last().unwrap());
+
+    // 用itertools写起来直观一些
+    let mut some_primes = (2..).filter(|&x| primes::is_prime(x));
+    let result = itertools::iterate(1, |&prod| prod * some_primes.next().unwrap())
+        .take_while(|&x| x < 1_000_000)
+        .last()
+        .unwrap();
+    println!("{:?}", result);
 }
 
 fn gcd(a: u64, b: u64) -> u64 {
