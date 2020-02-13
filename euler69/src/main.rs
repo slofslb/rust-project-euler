@@ -37,7 +37,7 @@ fn main() {
         prod *= some_primes.next().unwrap();
         tmp
     })
-    .take_while(|&x| x < 1_000_000)
+    .take_while(|&x| x <= 1_000_000)
     .collect::<Vec<_>>();
     println!("{:?}", some_products);
     println!("{:?}", some_products.last().unwrap());
@@ -45,12 +45,32 @@ fn main() {
     // 用itertools写起来直观一些
     let mut some_primes = (2..).filter(|&x| primes::is_prime(x));
     let result = itertools::iterate(1, |&prod| prod * some_primes.next().unwrap())
-        .take_while(|&x| x < 1_000_000)
+        .take_while(|&x| x <= 1_000_000)
         .last()
         .unwrap();
     println!("{:?}", result);
+
+
+    // 另一种算法：直接利用欧拉函数的数学公式
+let mut max_ratio = 0_f64;
+for n in 2..=1_000_000 {
+    let all_factors = primes::factors(n);
+    let uniq_factors = primes::factors_uniq(n);
+
+    let mut phi = 1;
+    for p in uniq_factors {
+        let k = all_factors.iter().filter(|&x| *x == p).count();
+        phi *= p.pow(k as u32 - 1) * (p-1);
+    }
+    let ratio = (n as f64) / (phi as f64);
+    if ratio > max_ratio {
+        println!("n= {:6}  phi={:6}  n/phi= {:.4}", n, phi, ratio);
+        max_ratio = ratio;
+    }
+}
 }
 
+// 最大公约数
 fn gcd(a: u64, b: u64) -> u64 {
     if b == 0 {
         a
