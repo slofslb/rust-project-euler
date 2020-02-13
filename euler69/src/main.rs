@@ -50,24 +50,23 @@ fn main() {
         .unwrap();
     println!("{:?}", result);
 
-
     // 另一种算法：直接利用欧拉函数的数学公式
-let mut max_ratio = 0_f64;
-for n in 2..=1_000_000 {
-    let all_factors = primes::factors(n);
-    let uniq_factors = primes::factors_uniq(n);
+    let mut max_ratio = 0_f64;
+    for n in 2..=1_000_000 {
+        let all_factors = primes::factors(n);
+        let uniq_factors = primes::factors_uniq(n);
 
-    let mut phi = 1;
-    for p in uniq_factors {
-        let k = all_factors.iter().filter(|&x| *x == p).count();
-        phi *= p.pow(k as u32 - 1) * (p-1);
+        let mut phi = 1;
+        for p in uniq_factors {
+            let k = all_factors.iter().filter(|&x| *x == p).count();
+            phi *= p.pow(k as u32 - 1) * (p - 1);
+        }
+        let ratio = (n as f64) / (phi as f64);
+        if ratio > max_ratio {
+            println!("n= {:6}  phi={:6}  n/phi= {:.4}", n, phi, ratio);
+            max_ratio = ratio;
+        }
     }
-    let ratio = (n as f64) / (phi as f64);
-    if ratio > max_ratio {
-        println!("n= {:6}  phi={:6}  n/phi= {:.4}", n, phi, ratio);
-        max_ratio = ratio;
-    }
-}
 
     // 欧拉函数的公式的另一种写法
     let mut max_ratio = 0_f64;
@@ -75,7 +74,7 @@ for n in 2..=1_000_000 {
         let uniq_factors = primes::factors_uniq(n);
         let mut phi = n;
         for p in uniq_factors {
-            phi = phi * (p-1) / p;
+            phi = phi * (p - 1) / p;
         }
         let ratio = (n as f64) / (phi as f64);
         if ratio > max_ratio {
