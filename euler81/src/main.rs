@@ -25,17 +25,16 @@ fn compute_min_path(w: &Vec<Vec<usize>>) -> Vec<Vec<usize>> {
     for i in (0..rows).rev() {
         for j in (0..cols).rev() {
             if i == rows - 1 && j == cols - 1 {
+                // 最右下角
                 path[i][j] = w[i][j];
+            } else if i == rows - 1 {
+                // 最底行，只有右节点
+                path[i][j] = w[i][j] + path[i][j + 1];
+            } else if j == cols - 1 {
+                // 最右列，只有下节点
+                path[i][j] = w[i][j] + path[i + 1][j];
             } else {
-                let mut down = std::usize::MAX;
-                if i + 1 < rows {
-                    down = path[i + 1][j];
-                }
-                let mut right = std::usize::MAX;
-                if j + 1 < cols {
-                    right = path[i][j + 1];
-                };
-                path[i][j] = w[i][j] + down.min(right);
+                path[i][j] = w[i][j] + path[i][j + 1].min(path[i + 1][j]);
             }
         }
     }
