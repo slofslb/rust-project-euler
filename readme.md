@@ -26,3 +26,14 @@ http://pe-cn.github.io
 可以在projecteuler中添加下面这个key，加我为好友，一起学习。
 
 1539870_KBNiIXymh4SnmDEDZmUTg7tu1MTBVlLj
+
+
+欧拉计划的官网不让在外面发布与欧拉计划解题有关的内容，如果超过100道则封账号，此github已经解决了80多道题，以后可能不会更新了。
+
+我把解题的过程记录了下来，写成了一本《用欧拉计划学 Rust 编程》PDF电子书，请随意下载。
+
+链接：https://pan.baidu.com/s/1NRfTwAcUFH-QS8jMwo6pqw
+
+提取码：qfha
+
+将来只会自己更新这个PDF了，不再发布在互联网上。如果谁有需要，加我的微信（SLOFSLB）获取，暗号：欧拉计划。
