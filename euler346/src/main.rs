@@ -2,7 +2,7 @@ fn main() {
     // 最早的尝试，打印了一张表
     for n in 1..14 {
         print!("n={}", n);
-        for b in 2_u64..12 {
+        for b in 2_u64..10 {
             let t = (b.pow(n) - 1) / (b - 1);
             print!("{:15}", t);
         }
