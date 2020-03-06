@@ -4,7 +4,7 @@ fn main() {
 }
 // 3010983666182123972
 
-fn sum_s(n:u32) ->u64 {
+fn sum_s(n: u32) -> u64 {
     let p = 2_u64.pow(n) - 1;
     let factors = primes::factors(p);
     // 2 ^ 64 - 1 的因子： [3, 3, 5, 5, 7, 11, 13, 31, 41, 61, 151, 331, 1321]
@@ -25,7 +25,7 @@ fn sum_s(n:u32) ->u64 {
                 }
             })
             .fold(1_u64, |p, a| p * a as u64)
-            + 1;
+            + 1; // (x-1)肯定是(2 ^ 60 - 1)的因子，最后别忘了+1
         if !v.contains(&prod) {
             v.push(prod);
         }
