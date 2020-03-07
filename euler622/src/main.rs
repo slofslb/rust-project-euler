@@ -30,8 +30,8 @@ fn sum_s(n: u32) -> u64 {
             v.push(prod);
         }
     }
-    //v.sort();
-    //println!("{:?}",v );
+    v.sort();
+    println!("{:?}",v );
 
     v.iter().filter(|&x| shuffle_times(*x) == n).sum::<u64>()
 }
