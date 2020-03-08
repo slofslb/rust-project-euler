@@ -1,12 +1,14 @@
+use itertools::Itertools;
 use primes::PrimeSet;
-use std::collections::HashMap;
-
 fn main() {
     // 最早的试验
-    println!("16 {}", min_num_has_factors(16));
-    println!("32 {}", min_num_has_factors(32));
-    println!("64 {}", min_num_has_factors(64));
-    println!("128 {}", min_num_has_factors(128));
+    min_number_has_factors(4); // 2^2
+    min_number_has_factors(8); // 2^3
+    min_number_has_factors(16); // 2^4
+    min_number_has_factors(32); // 2^5
+    min_number_has_factors(64); // 2^6
+    min_number_has_factors(128); // 2^7
+                                 //min_number_has_factors(256); // 2^8
 
     println!("{}", p500(500500));
 
@@ -24,33 +26,32 @@ fn main() {
 fn p_16_factors() {
     // 16 divisors = 2^4, so call p500(4)
     assert_eq!(120, p500(4));
-
-
 }
 
 fn p500(n: usize) -> u64 {
     let mut pset = PrimeSet::new();
     let primes: Vec<_> = pset.iter().take(n).collect();
+    let primes_log: Vec<_> = primes.iter().map(|x| (*x as f64).log10()).collect();
     //println!("{:?}", primes);
 
-    let mut b = vec![];
-    for _i in 1..=n {
-        let mut min = (primes[b.len()] as f64).log10();
-        let mut min_j = b.len();
+    let mut b = vec![1];
+    for _i in 2..=n {
+        let mut min = primes_log[b.len()];
+        let mut pos = b.len();
         for j in 0..b.len() {
-            let temp = 2_f64.powf(b[j] as f64) * (primes[j] as f64).log10();
+            let temp = 2_f64.powf(b[j] as f64) * primes_log[j];
             if temp < min {
-                min_j = j;
+                pos = j;
                 min = temp;
             }
             if b[j] == 1 {
                 break;
             }
         }
-        if min_j == b.len() {
+        if pos == b.len() {
             b.push(1);
         } else {
-            b[min_j] += 1;
+            b[pos] += 1;
         }
     }
 
@@ -66,35 +67,45 @@ fn p500(n: usize) -> u64 {
     result
 }
 
-use itertools::Itertools;
-fn min_num_has_factors(x: u64) -> u64 {
+fn min_number_has_factors(x: u64) -> u64 {
     for n in 2.. {
-        let factors = primes::factors(n);
-        let map = factors_to_hash_map(&factors);
-
-        let factors_num: u64 = map.values().map(|x| x + 1).product();
+        let groups = factors_group(n);
+        let factors_num = groups.iter().map(|(_, x)| x + 1).product::<u64>();
         if factors_num == x {
-            print!("{} = ", n);
-            println!("{}", &map.iter().map(|(k,v)| k.to_string() + &"^" + &v.to_string()).join(" * "));
-            println!("{} = {}", factors_num, &map.values().map(|x| "(".to_string() + &x.to_string() + &"+1)").join(" * "));
+            println!("{}, divisors num: {}", n, factors_num);
+            print_factors_group(groups);
             return n;
         }
     }
     0
 }
 
-fn factors_to_hash_map(factors: &[u64]) -> HashMap<u64, u64> {
-    let mut map = HashMap::new();
-    for f in factors {
-        let v = map.get(f).cloned(); // 如果不写cloned()，有警告，不理解原因
-        match v {
-            Some(x) => {
-                map.insert(*f, x + 1);
-            }
-            None => {
-                map.insert(*f, 1);
-            }
-        }
-    }
-    map
+// 如果一个数有这些因子：[2, 2, 3, 3, 3, 3, 5, 7]
+// 则得到：[(2,2), (3,4), (5,1), (7,1)]
+fn factors_group(n: u64) -> Vec<(u64, u64)> {
+    let factors = primes::factors(n);
+    let groups = factors
+        .iter()
+        .group_by(|e| **e)
+        .into_iter()
+        .map(|(k, group)| (k, group.count() as u64))
+        .collect::<Vec<(u64, u64)>>();
+    groups
+}
+
+fn print_factors_group(groups: Vec<(u64, u64)>) {
+    println!(
+        "{}",
+        &groups
+            .iter()
+            .map(|(k, v)| k.to_string() + &"^" + &v.to_string())
+            .join(" * ")
+    );
+    println!(
+        "因子个数:  {}",
+        &groups
+            .iter()
+            .map(|(_, v)| "(".to_string() + &v.to_string() + &"+1)")
+            .join(" * ")
+    );
 }
