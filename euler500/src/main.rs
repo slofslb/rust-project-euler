@@ -8,17 +8,9 @@ fn main() {
     min_number_has_factors(32); // 2^5
     min_number_has_factors(64); // 2^6
     min_number_has_factors(128); // 2^7
-                                 //min_number_has_factors(256); // 2^8
+    min_number_has_factors(256); // 2^8
 
     println!("{}", p500(500500));
-
-    /*
-    for m in 1..15 {
-        let divisors = 2_u64.pow(m);
-        let mm = min_n(divisors);
-        println!("divisors: {} n:{}", divisors, mm);
-    }
-    */
 }
 // 35407281
 
@@ -37,7 +29,7 @@ fn p500(n: usize) -> u64 {
     let mut b = vec![1];
     for _i in 2..=n {
         let mut min = primes_log[b.len()];
-        let mut pos = b.len();
+        let mut pos = b.len(); // 默认尾部增加一个
         for j in 0..b.len() {
             let temp = 2_f64.powf(b[j] as f64) * primes_log[j];
             if temp < min {
