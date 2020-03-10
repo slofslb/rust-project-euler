@@ -1,11 +1,11 @@
-use primes::PrimeSet;
-use petgraph::Graph;
 use petgraph::algo;
+use petgraph::Graph;
+use primes::PrimeSet;
 
 fn main() {
     // 参考这篇文章，学会了petgraph的使用
     // https://thobbs.cz/rust-play/petgraph_review.html
-    let mut graph : Graph<&str, &str, petgraph::Directed> = Graph::new();
+    let mut graph: Graph<&str, &str, petgraph::Directed> = Graph::new();
     let a = graph.add_node("a");
     let b = graph.add_node("b");
     let c = graph.add_node("c");
@@ -24,8 +24,14 @@ fn main() {
     //let mut with_scc = dag.clone();
     graph.add_edge(f, b, "");
 
-    println!("Does 'with_scc' have strongly connected components? {}", algo::is_cyclic_directed(&graph));
-    println!("Does 'dag' have strongly connected components? {}", algo::is_cyclic_directed(&graph));
+    println!(
+        "Does 'with_scc' have strongly connected components? {}",
+        algo::is_cyclic_directed(&graph)
+    );
+    println!(
+        "Does 'dag' have strongly connected components? {}",
+        algo::is_cyclic_directed(&graph)
+    );
 
     // let  _condensed_graph = algo::condensation(with_scc, true);
     // let condensed_graph = _condensed_graph.map(
@@ -34,7 +40,6 @@ fn main() {
     // );
     // println!("{:#?}", condensed_graph);
 
-
     // let _with_scc_and_edge_weights = with_scc.clone();
     // let with_scc_and_edge_weights = _with_scc_and_edge_weights.map(
     //     |_, w| w.clone(),
@@ -42,14 +47,14 @@ fn main() {
     // );
     // println!("{:#?}", with_scc_and_edge_weights);
 
-    let  sccs = algo::tarjan_scc(&graph);
+    let sccs = algo::tarjan_scc(&graph);
     for scc in sccs {
         println!("----");
         if scc.len() == 4 {
-        for node_id in scc {
-            println!("{:?} {}", node_id, graph.node_weight(node_id).unwrap());
+            for node_id in scc {
+                println!("{:?} {}", node_id, graph.node_weight(node_id).unwrap());
+            }
         }
-    }
     }
 
     // g.extend_with_edges(&[
@@ -57,7 +62,6 @@ fn main() {
     // ]);
     // let tt = algo::kosaraju_scc(g);
     // println!("{:?}", tt);
-
 
     let max = 9000;
     let primes: Vec<Vec<u64>> = vec![vec![]];
