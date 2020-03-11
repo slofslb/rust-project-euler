@@ -1,4 +1,5 @@
 use primes::PrimeSet;
+
 fn main() {
     let max = 10000;
     for p1 in prime_pairs(max, &[]) {
