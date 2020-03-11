@@ -1,6 +1,8 @@
 fn main() {
+    let triangle_num = |n: u32| -> u32 { n * (n + 1) / 2 };
+
     let tri: Vec<u32> = (1..)
-        .map(|n| n * (n + 1) / 2)
+        .map(triangle_num)
         .filter(|&n| n > 1000)
         .take_while(|&n| n < 9999)
         .collect();
@@ -50,4 +52,12 @@ fn main() {
         println!("{}", oct);
     }
     */
+}
+
+fn gen_poly_numbers(start:u32, end:u32, F:&Fn(u32)->u32) {
+     (1..)
+    .map(F)
+    .filter(|&n| n >= start)
+    .take_while(|&n| n <= end)
+    .collect()
 }
