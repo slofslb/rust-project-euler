@@ -8,4 +8,3 @@ edition = "2018"
 
 [dependencies]
 primes = "0.2.4"
-petgraph = "0.5.0"

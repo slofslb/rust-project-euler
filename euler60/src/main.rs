@@ -38,22 +38,20 @@ fn prime_pairs(max: u64, list_primes: &[u64]) -> Vec<Vec<u64>> {
     pairs
 }
 
+// each prime in list concating with b, are prime
 fn all_primes(primes_list: &[u64], b: u64) -> bool {
     for &a in primes_list.iter() {
-        if !is_bidirectional_primes(a, b) {
+        if !is_concat_primes(a, b) || !is_concat_primes(b, a) {
             return false;
         }
     }
     true
 }
 
-// concating two primes in bi-directional are all primes?
-// for example, 7, 109 => 7109, 1097 are all primes, so return true
-fn is_bidirectional_primes(x: u64, y: u64) -> bool {
-    let is_concat_prime = |a, b| {
+// concating prime a and prime b, the result is prime?
+// for example, 7, 109 => 7109 is prime, so return true
+fn is_concat_primes(a: u64, b: u64) -> bool {
         let c = format!("{}{}", a, b);
         let c = c.parse::<u64>().unwrap();
         primes::is_prime(c)
-    };
-    is_concat_prime(x, y) && is_concat_prime(y, x)
 }
