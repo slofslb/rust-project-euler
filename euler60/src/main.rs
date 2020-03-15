@@ -1,6 +1,20 @@
 use primes::PrimeSet;
 
 fn main() {
+    /* // find an error answer: 129976621
+    let mut pset = PrimeSet::new();
+    for p in pset.iter() {
+        if is_concat_primes(p, 3) && is_concat_primes(3, p)
+            && is_concat_primes(p, 7) && is_concat_primes(7, p)
+            && is_concat_primes(p, 109) && is_concat_primes(109, p)
+            && is_concat_primes(p, 673) && is_concat_primes(673, p)
+        {
+            println!("{}", p);
+            break;
+        }
+    }
+    */
+
     let max = 10000;
     for p1 in prime_pairs(max, &[]) {
         for p2 in prime_pairs(max, &p1) {
@@ -16,10 +30,10 @@ fn main() {
         }
     }
 }
-// error: 129976621
+
 // right: 26033 = [13, 5197, 5701, 6733, 8389]
 
-// try to append a prime to list_primes, don't exceed max value 
+// try to append a prime to list_primes, don't exceed max value
 fn prime_pairs(max: u64, list_primes: &[u64]) -> Vec<Vec<u64>> {
     let mut pairs = vec![];
 
@@ -51,7 +65,7 @@ fn all_primes(primes_list: &[u64], b: u64) -> bool {
 // concating prime a and prime b, the result is prime?
 // for example, 7, 109 => 7109 is prime, so return true
 fn is_concat_primes(a: u64, b: u64) -> bool {
-        let c = format!("{}{}", a, b);
-        let c = c.parse::<u64>().unwrap();
-        primes::is_prime(c)
+    let c = format!("{}{}", a, b);
+    let c = c.parse::<u64>().unwrap();
+    primes::is_prime(c)
 }
