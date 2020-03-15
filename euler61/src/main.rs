@@ -1,67 +1,41 @@
 fn main() {
-    let triangle_num = |n: u32| -> u32 { n * (n + 1) / 2 };
+    let tri = gen_poly_numbers(1000, 9999, |n| n * (n + 1) / 2);
+    let sqr = gen_poly_numbers(1000, 9999, |n| n * n);
+    let pent = gen_poly_numbers(1000, 9999, |n| n * (3 * n - 1) / 2);
+    let hex = gen_poly_numbers(1000, 9999, |n| n * (2 * n - 1));
+    let hep = gen_poly_numbers(1000, 9999, |n| n * (5 * n - 3) / 2);
+    let oct = gen_poly_numbers(1000, 9999, |n| n * (3 * n - 2));
 
-    let tri: Vec<u32> = (1..)
-        .map(triangle_num)
-        .filter(|&n| n > 1000)
-        .take_while(|&n| n < 9999)
-        .collect();
+    let mut v = vec![];
     println!("triangle: {:?}", tri);
     for &e in tri.iter() {
         v.push((1, head(e), tail(e)));
     }
 
-    let squ: Vec<u32> = (1..)
-        .map(|n| n * n)
-        .filter(|&n| n > 1000)
-        .take_while(|&n| n < 9999)
-        .collect();
-    println!("square: {:?}", squ);
-    for &e in squ.iter() {
+    println!("square: {:?}", sqr);
+    for &e in sqr.iter() {
         v.push((2, head(e), tail(e)));
     }
 
-    let pen: Vec<u32> = (1..)
-        .map(|n| n * (3 * n - 1) / 2)
-        .filter(|&n| n > 1000)
-        .take_while(|&n| n < 9999)
-        .collect();
-    println!("pentagonal: {:?}", pen);
-    for &e in pen.iter() {
+    println!("pentagonal: {:?}", pent);
+    for &e in pent.iter() {
         v.push((3, head(e), tail(e)));
     }
 
-    let hex: Vec<u32> = (1..)
-        .map(|n| n * (2 * n - 1))
-        .filter(|&n| n > 1000)
-        .take_while(|&n| n < 9999)
-        .collect();
     println!("hexagonal: {:?}", hex);
     for &e in hex.iter() {
         v.push((4, head(e), tail(e)));
     }
 
-    let hep: Vec<u32> = (1..)
-        .map(|n| n * (5 * n - 3) / 2)
-        .filter(|&n| n > 1000)
-        .take_while(|&n| n < 9999)
-        .collect();
     println!("heptagonal: {:?}", hep);
     for &e in hep.iter() {
         v.push((5, head(e), tail(e)));
     }
 
-    let oct: Vec<u32> = (1..)
-        .map(|n| n * (3 * n - 2))
-        .filter(|&n| n > 1000)
-        .take_while(|&n| n < 9999)
-        .collect();
     println!("octagonal: {:?}", oct);
     for &e in oct.iter() {
         v.push((6, head(e), tail(e)));
     }
-
-    //println!("{:?}", v);
 
     //find(&v, 45, 10, &[1,2,3,4,5]);
 
@@ -70,9 +44,9 @@ fn main() {
         let mut sample = vec![];
         let a = tri[rand::random::<usize>() % tri.len()];
         sample.push(a);
-        let b = squ[rand::random::<usize>() % squ.len()];
+        let b = sqr[rand::random::<usize>() % sqr.len()];
         sample.push(b);
-        let c = pen[rand::random::<usize>() % pen.len()];
+        let c = pent[rand::random::<usize>() % pent.len()];
         sample.push(c);
         let d = hex[rand::random::<usize>() % hex.len()];
         sample.push(d);
@@ -95,9 +69,9 @@ fn main() {
             if index == 0 {
                 sample_new[index] = tri[rand::random::<usize>() % tri.len()];
             } else if index == 1 {
-                sample_new[index] = squ[rand::random::<usize>() % squ.len()];
+                sample_new[index] = sqr[rand::random::<usize>() % sqr.len()];
             } else if index == 2 {
-                sample_new[index] = pen[rand::random::<usize>() % pen.len()];
+                sample_new[index] = pent[rand::random::<usize>() % pent.len()];
             } else if index == 3 {
                 sample_new[index] = hex[rand::random::<usize>() % hex.len()];
             } else if index == 4 {
@@ -109,7 +83,7 @@ fn main() {
             if !samples.contains(&sample_new) {
                 let ev = eval(&sample_new);
                 if ev == 12 {
-                    println!("{:?} {}", samples[0], samples[0].iter().sum::<u32>());
+                    println!("{:?} {}", sample_new, sample_new.iter().sum::<u32>());
                     return;
                 }
                 if ev > max {
@@ -191,11 +165,11 @@ fn find(v: &Vec<(u32,u32,u32)>, start: u32, end: u32, poly_type: &[u32]) -> Vec<
     }
     vec![]
 }
-
-fn gen_poly_numbers(start:u32, end:u32, F:&Fn(u32)->u32) {
-     (1..)
-    .map(F)
-    .filter(|&n| n >= start)
-    .take_while(|&n| n <= end)
-    .collect()
+*/
+fn gen_poly_numbers(start: u32, end: u32, f: fn(u32) -> u32) -> Vec<u32> {
+    (1..)
+        .map(f)
+        .filter(|&n| n >= start)
+        .take_while(|&n| n <= end)
+        .collect()
 }
