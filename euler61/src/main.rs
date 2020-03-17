@@ -6,6 +6,10 @@ fn main() {
     let p7 = gen_poly_numbers(1000, 9999, |n| n * (5 * n - 3) / 2);
     let p8 = gen_poly_numbers(1000, 9999, |n| n * (3 * n - 2));
 
+    for &n in &p5 {
+        find(&[&p3, &p4], tail(n), head(n), &[]);
+    }
+
     for n in p8 {
         find(&[&p3, &p4, &p5, &p6, &p7], tail(n), head(n), &[]);
     }
