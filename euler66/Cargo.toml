@@ -8,3 +8,4 @@ edition = "2018"
 
 [dependencies]
 num-integer = "0.1.42"
+primes = "0.3.0"
