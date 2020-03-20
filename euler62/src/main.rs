@@ -3,18 +3,18 @@ use std::collections::HashMap;
 fn main() {
     let mut min_cube = std::u64::MAX;
     let mut hash = HashMap::new();
-    for i in 10_u64..10000 {
+    for i in 1_u64..10000 {
         let pow3 = i.pow(3);
         let mut digits: Vec<u64> = pow3
             .to_string()
             .chars()
             .map(|x| x.to_digit(10).unwrap() as u64)
             .collect();
-        digits.sort();
+        digits.sort_by(|a, b| b.cmp(a)); // 反向排序
         // 反序排列之后的整数，作为哈希表的主键
         // 例如：5027，立方之后是127035954683，然后把里面的所有数字反序排列
         // 主键就是987655433210，反序的作用是不漏掉任何一个0
-        let key = digits.iter().rev().fold(0u64, |x, a| 10 * x + a);
+        let key = digits.iter().fold(0u64, |x, a| 10 * x + a);
         let cubic_numbers = hash.entry(key).or_insert(vec![]);
         cubic_numbers.push(i);
         if cubic_numbers.len() == 5 {
