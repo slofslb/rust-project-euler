@@ -4,8 +4,8 @@ use std::time::SystemTime;
 fn main() {
     let start = SystemTime::now();
 
-    let large_num = 1_000_000;
-    // 为防止判断 n + n / d 是否为素数时越界，多分配一点空间
+    let large_num = 100_000_000;
+    // 为防止判断 d + n / d 是否为素数时越界，多分配一点空间
     let prime_mask = myprime::prime_sieve(large_num + 2); 
     println!("finished prime generation");
 
@@ -24,10 +24,10 @@ fn is_divisor_prime(prime_mask: &[bool], n: usize) -> bool {
     let s = (n as f32).sqrt() as usize;
 
     // 把一半的因子全求出来，计算量太大，性能非常差
-    let half_divisors: Vec<usize> = (1..=s).filter(|x| n % x == 0).collect();
+    // let half_divisors: Vec<usize> = (1..=s).filter(|x| n % x == 0).collect();
 
     // 这个闭包特性非常有用，并没有完全计算出来，而是延迟评价
-    //let half_divisors = (1..=s).filter(|x| n % x == 0);
+    let half_divisors = (1..=s).filter(|x| n % x == 0);
 
     for d in half_divisors {
         let p = d + n / d;
