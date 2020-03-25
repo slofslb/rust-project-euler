@@ -29,10 +29,30 @@ fn combi(m: u64, n: u64) -> BigUint {
     factorial(m) / factorial(n) / factorial(m - n)
 }
 
+use itertools::Itertools;
 use num_traits::cast::ToPrimitive;
 fn main() {
+    let mut rng = thread_rng();
+    let total_samples = 1000_000_u64;
+    let mut distinct_color_balls = 0;
+    let balls :Vec<i32>= (0..70).collect();
+    for _i in 0..total_samples {
+        let balls20 = seq::sample_slice(&mut rng, &balls, 20);//.unwrap();
+        let unique_balls = balls20
+            .into_iter()
+            .unique_by(|x| x / 10)
+            .collect::<Vec<i32>>();
+        distinct_color_balls += unique_balls.len();
+       }
+    println!("{}", (distinct_color_balls as f64) / (total_samples as f64));
+
+
+
+    // let sample = seq::sample_slice(&mut rng, &balls, 20);
+    // println!("{:?}", sample);
+
     let prob = 7.0 * (1.0 - combi(60, 20).to_f64().unwrap() / combi(70, 20).to_f64().unwrap());
-    println!("{}", prob);
+    println!("{:.9}", prob);
 
     // 后面尝试用模拟的方法，计算精度大概能到小数点后4位
     // 初始化70个球，bit0, bit1 ... bit6用来表示7种颜色
@@ -47,7 +67,6 @@ fn main() {
         initial_balls.push((i << 8) + 64); // color 6
     }
 
-    let mut rng = thread_rng();
     let total_samples = 1000_000_u64;
     let mut distinct_color_balls = 0;
     for _i in 0..total_samples {
@@ -68,9 +87,3 @@ fn main() {
     }
     println!("{}", (distinct_color_balls as f64) / (total_samples as f64));
 }
-
-// 两个抽样函数的写法
-// let sample = seq::sample_iter(&mut rng, 0..70, 20).unwrap();
-// println!("{:?}", sample);
-// let sample = seq::sample_slice(&mut rng, &balls, 20);
-// println!("{:?}", sample);
