@@ -1,9 +1,15 @@
+use std::time::SystemTime;
+
 fn main() {
+    let start = SystemTime::now();
     println!("{}", summation_ways(100, 99));
+    println!("{:?}", start.elapsed());
 
     // 第二种解法：
+    let start = SystemTime::now(); 
     let mut cache = vec![0_i64; 101];
     println!("{}", p(&mut cache, 100) - 1);
+    println!("{:?}", start.elapsed());
 }
 // 190569291
 

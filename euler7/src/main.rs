@@ -23,5 +23,10 @@ fn main() {
             }
         }
     }
+
+    // use primes module
+    use primes::{Sieve, PrimeSet};
+    let mut pset = Sieve::new();
+    println!("{}", pset.get(10_000));
 }
 // 104743
