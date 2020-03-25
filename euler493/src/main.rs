@@ -1,61 +1,43 @@
-use rand::{seq, thread_rng, Rng};
-extern crate bitstream_io;
+use itertools::Itertools;
+use rand::{seq, thread_rng};
 
-extern crate num_bigint;
-use num_bigint::BigUint;
+fn main() {
+    // 7.0 * (1.0 - c(60, 20) / c(70, 20))
+    let mut prob = 1.0;
+    for i in 41..=50 {
+        prob *= (i as f64) / ((i + 20) as f64);
+    }
+    println!("{:.9}", (1.0 - prob) * 7.0);
+
+    // 模拟算法，只能得到粗略答案
+    simulate();
+}
+
+fn simulate() {
+    let mut rng = thread_rng();
+    let total_samples = 1_000_000_u64;
+    let mut sum = 0;
+    //let all_balls :Vec<u32>= (0..70).collect();
+    for _i in 0..total_samples {
+        let balls20 = seq::sample_iter(&mut rng, 0..70, 20).unwrap();
+        let distinct_colors = balls20
+            .into_iter()
+            .map(|x| x / 10)
+            .unique()
+            .collect::<Vec<u32>>();
+        //println!("{:?}", distinct_colors);
+        sum += distinct_colors.len();
+    }
+    println!("{}", (sum as f64) / (total_samples as f64));
+}
 
 /*
- 一直不喜欢排列组合类的题目，我用程序来模拟，最后只能得到6.8187，最后google找到了答案。
-
- 20个球里出现7种颜色球的概率，
- 等价于：20个球里出现至少1个红球，至少1个绿球，...，至少1个紫球的概率
- 由于出现红、绿、...、紫球的概率是一样的，所以问题又等价于
- 7 * {20个球里出现至少1个红球的概率}
- 7 * (1 - 20个球里没有出现1个红球的概率)
- 等价于：7 * (1 - 20个球里没有红球出现的所有可能组合 / 70个球里选20个球的所有可能组合）
- 70个球里，除掉10个红球，还有60个其它颜色的球，从里面选20个的情况共有 C(60, 20)种
- 最后结果 = 7 * (1 - C(60, 20)) / C(70, 20)
-*/
-
-fn factorial(n: u64) -> BigUint {
-    let mut prod = BigUint::from(1 as u64);
-    for i in 2..=n {
-        prod *= BigUint::from(i as u64);
-    }
-    prod
-}
-
-fn combi(m: u64, n: u64) -> BigUint {
-    factorial(m) / factorial(n) / factorial(m - n)
-}
-
-use itertools::Itertools;
 use num_traits::cast::ToPrimitive;
-fn main() {
-    let mut rng = thread_rng();
-    let total_samples = 1000_000_u64;
-    let mut distinct_color_balls = 0;
-    let balls :Vec<i32>= (0..70).collect();
-    for _i in 0..total_samples {
-        let balls20 = seq::sample_slice(&mut rng, &balls, 20);//.unwrap();
-        let unique_balls = balls20
-            .into_iter()
-            .unique_by(|x| x / 10)
-            .collect::<Vec<i32>>();
-        distinct_color_balls += unique_balls.len();
-       }
-    println!("{}", (distinct_color_balls as f64) / (total_samples as f64));
-
-
-
-    // let sample = seq::sample_slice(&mut rng, &balls, 20);
-    // println!("{:?}", sample);
-
-    let prob = 7.0 * (1.0 - combi(60, 20).to_f64().unwrap() / combi(70, 20).to_f64().unwrap());
-    println!("{:.9}", prob);
+extern crate bitstream_io;
 
     // 后面尝试用模拟的方法，计算精度大概能到小数点后4位
     // 初始化70个球，bit0, bit1 ... bit6用来表示7种颜色
+    let mut rng = thread_rng();
     let mut initial_balls: Vec<u32> = vec![];
     for i in 1..=10 {
         initial_balls.push((i << 8) + 1); // color 0
@@ -86,4 +68,4 @@ fn main() {
         distinct_color_balls += color_mask.count_ones() as u64;
     }
     println!("{}", (distinct_color_balls as f64) / (total_samples as f64));
-}
+*/
