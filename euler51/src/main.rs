@@ -1,15 +1,21 @@
 use itertools::Itertools;
 
 fn main() {
+    for n in 10..100 {
+        for pos in 0..=1 {
+            let prime_family = gen_prime_family(n, pos);
+            if prime_family.len() == 6 {
+                println!("seed: {} {:?}", n, prime_family);
+                break;
+            }
+        }
+    }
+
     let start = 100000;
     let end = 999999;
 
-    let max_number_to_check = end + 1;
-    let mut prime_mask = vec![true; max_number_to_check];
-    fill_prime_mask(&mut prime_mask);
-
     for n in start..end {
-        if !prime_mask[n] {
+        if !primes::is_prime(n) {
             continue;
         }
         for position_replaced in 2..end.to_string().len() - 1 {
@@ -22,7 +28,7 @@ fn main() {
                         n_generated = replace(n_generated, *ip, digit);
                     }
 
-                    if prime_mask[n_generated]
+                    if primes::is_prime(n_generated)
                         && !prime_family.contains(&n_generated)
                         && n_generated.to_string().len() == end.to_string().len()
                     {
@@ -41,7 +47,7 @@ fn main() {
 // seed: 120383 [1, 3, 5] [121313, 222323, 323333, 424343, 525353, 626363, 828383, 929393]
 // 121313
 
-static POWER: &[usize] = &[
+static POWER: &[u64] = &[
     1,
     10,
     100,
@@ -55,28 +61,28 @@ static POWER: &[usize] = &[
     10_000_000_000,
 ];
 
-fn replace(n: usize, pos: usize, new_digit: usize) -> usize {
-    let d = n / POWER[pos] % 10;
-    n - d * POWER[pos] + new_digit * POWER[pos]
+// 把整数n的某位换成新数字new_digit
+// pos为0表示个位，1表示十位，2表示百位
+fn replace(n: u64, pos: usize, new_digit: u64) -> u64 {
+    let d = n / 10_u64.pow(pos as u32) % 10;
+    n - d * 10_u64.pow(pos as u32) + new_digit * 10_u64.pow(pos as u32)
 }
 
-fn remove(n: usize, pos: usize) -> (usize, usize) {
+fn remove(n: u64, pos: usize) -> (u64, u64) {
     let d = n / POWER[pos] % 10;
     (n - d * POWER[pos], d)
 }
 
-fn fill_prime_mask(prime_mask: &mut [bool]) {
-    prime_mask[0] = false;
-    prime_mask[1] = false;
-
-    const FIRST_PRIME_NUMBER: usize = 2;
-    for p in FIRST_PRIME_NUMBER..prime_mask.len() {
-        if prime_mask[p] {
-            let mut i = 2 * p;
-            while i < prime_mask.len() {
-                prime_mask[i] = false;
-                i += p;
-            }
+fn gen_prime_family(n: u64, pos: usize) -> Vec<u64> {
+    let mut prime_family = vec![];
+    for digit in 0..=9 {
+        let generated = replace(n, pos, digit);
+        if primes::is_prime(generated)
+            && !prime_family.contains(&generated)
+            && generated.to_string().len() == n.to_string().len()
+        {
+            prime_family.push(generated);
         }
     }
+    prime_family
 }
