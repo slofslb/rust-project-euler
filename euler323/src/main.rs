@@ -1,4 +1,12 @@
 fn main() {
+    let mut sum = 0.0;
+    for _i in 1..100000 {
+        sum += trial() as f64;
+    }
+    println!("{}", sum / 100000.0);
+
+
+
     let mut e = vec![0.0, 2.0];
     for n in 2..=32 {
         let mut f = 1.0 as f64;
@@ -22,6 +30,19 @@ fn main() {
     */
 }
 
+fn trial() -> u32 {
+    let mut x = 0_u32;
+    for i in 1.. {
+        x |= rand::random::<u32>();
+        if x == 0xFFFFFFFF {
+            return i;
+        }
+    }
+    0
+}
+// 经过这个简单的测试，大概期望值为6.35左右
+
+/*
 fn trial(bits: u32) -> u32 {
     let mut x = 0_u32;
     for i in 1.. {
@@ -35,7 +56,7 @@ fn trial(bits: u32) -> u32 {
     }
     0
 }
-// 经过这个简单的测试，大概期望值为6.35左右
+*/
 
 fn comb(n: usize, r: usize) -> f64 {
     let mut c = 1_f64;
