@@ -18,6 +18,17 @@ fn main() {
         i += 1;
     }
     println!("{}", sum);
+
+    // 另一种写法
+    let mut fib = vec![1, 2];
+    for i in 2.. {
+        let c = fib[i - 1] + fib[i - 2];
+        if c >= 4_000_000 {
+            break;
+        }
+        fib.push(c);
+    }
+    println!("{}", fib.iter().filter(|&x| x % 2 == 0).sum::<u32>());
 }
 
 /*
