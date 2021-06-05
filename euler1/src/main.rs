@@ -7,11 +7,13 @@ fn main() {
     }
     println!("{}", sum);
 
+    // write in one line
     println!(
         "{}",
         (1..1000).filter(|x| x % 3 == 0 || x % 5 == 0).sum::<u32>() // 如果忘了冒号，会出现什么错误？
     );
 
+    // fold()
     println!(
         "{}",
         (1..1000)
